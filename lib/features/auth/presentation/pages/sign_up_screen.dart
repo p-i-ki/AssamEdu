@@ -19,6 +19,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  String userType = "Student";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -35,6 +36,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
           );
     }
   }
+
+  // @override
+  // void didChangeDependencies() {
+  //   userType = ModalRoute.of(context)?.settings.arguments as String;
+  //   super.didChangeDependencies();
+  // }
 
   @override
   Widget build(BuildContext context) {

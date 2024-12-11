@@ -27,10 +27,10 @@ class GetStartedScreen extends StatelessWidget {
                 buttonTextLeft: 'EDUCATOR',
                 buttonTextRight: 'LEARNER',
                 onPressedLeft: () {
-                  storeAndNavigate(context, AppRoutes.EDUCATOR);
+                  storeAndNavigate(context, AppRoutes.EDUCATOR, "Educator");
                 },
                 onPressedRight: () {
-                  storeAndNavigate(context, AppRoutes.LEARNER);
+                  storeAndNavigate(context, AppRoutes.LEARNER, "Learner");
                 }),
             //Get started text
             mainText(text: 'GET STARTED'),
@@ -40,10 +40,12 @@ class GetStartedScreen extends StatelessWidget {
     );
   }
 
-  void storeAndNavigate(BuildContext context, String route) async {
+  void storeAndNavigate(
+      BuildContext context, String route, String userType) async {
     try {
       print("Accessing StorageServices"); //
       final storageServices = getIt<StorageServices>();
+      await storageServices.setUserType(AppConstants.USER_TYPE, userType);
       final save = await storageServices.setDeviceFirstOpen(
           AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME, true);
       if (save == true && context.mounted) {

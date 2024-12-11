@@ -19,6 +19,15 @@ class StorageServices {
     return _prefs.getBool(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME) ?? false;
   }
 
+  //Save user type for different routes
+  Future<bool> setUserType(String key, String value) async {
+    return await _prefs.setString(key, value);
+  }
+
+  String getUserType() {
+    return _prefs.getString(AppConstants.USER_TYPE) ?? '';
+  }
+
   //user after logged in..
   Future<bool> setString(String key, String value) async {
     return await _prefs.setString(key, value);
