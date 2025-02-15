@@ -26,20 +26,6 @@ class AuthSignInEvent extends AuthEvent {
   });
 }
 
-class AuthSendOtpEvent extends AuthEvent {
-  final String email;
-  const AuthSendOtpEvent({required this.email});
-}
-
-// OTP Verification Events
-
-class AuthOTPDigitChanged extends AuthEvent {
-  final int index;
-  final String value;
-
-  const AuthOTPDigitChanged({required this.index, required this.value});
-}
-
 class AuthVerifyOTP extends AuthEvent {
   final String email;
   final String otp;

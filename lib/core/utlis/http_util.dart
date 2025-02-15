@@ -1,3 +1,4 @@
+import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:dio/dio.dart';
@@ -8,7 +9,7 @@ class HttpUtil {
   // Constructor with required Dio instance
   HttpUtil({required this.dio});
 
-// post request API
+// Post request API
   Future post(
     String path, {
     dynamic myData,
@@ -37,23 +38,69 @@ class HttpUtil {
       );
       print("Response From Dio ------> : ${response.data}");
       return response.data;
+    } on DioException catch (e) {
+      String err = _handleDioError(e);
+      return {
+        'success': false,
+        'message': err,
+      };
     } catch (e) {
       print("Error during POST: $e");
-
       // If there's an unexpected error (not from the server response)
       return {
         'success': false,
         'message': 'An unexpected error occurred',
       };
     }
-    // try {
+  }
 
-    // } on DioException catch (e) {
-    //   print("Error during POST: ${e.message}");
-    //   print("Status code: ${e.response?.statusCode}");
-    //   print("Response data: ${e.response?.data}");
-    //   throw e; // Rethrow to handle at a higher level
-    // }
+// Get Request API
+  Future<dynamic> get({
+    required String path,
+    Map<String, dynamic>? queryParameters,
+    Object? data,
+    Options? options,
+  }) async {
+    try {
+      Options requestOptions = options ?? Options();
+      requestOptions.headers ??= {}; // Ensure headers are initialized
+
+      // The ONLY place to get the token is from the passed 'options':
+      if (!requestOptions.headers!
+          .containsKey(AppConstants.STORAGE_USER_TOKEN_KEY)) {
+        // Check if 'token' exists
+        //Handle if the token is not passed
+        final sv = getIt<StorageServices>();
+        String token = sv.getUserToken();
+        requestOptions.headers![AppConstants.STORAGE_USER_TOKEN_KEY] = token;
+      }
+
+      print(
+          "------Post Method is Triggered: Path - $path, Data - $data, header - ${requestOptions.headers}");
+
+      final response = await dio.get(
+        path,
+        queryParameters: queryParameters,
+        options: requestOptions,
+      );
+
+      print("Response from HTTPUtil ----> : ${response.data}");
+
+      return response.data;
+    } on DioException catch (e) {
+      String err = _handleDioError(e);
+      return {
+        'success': false,
+        'message': err,
+      };
+    } catch (e) {
+      print("Error during POST: $e");
+      // If there's an unexpected error (not from the server response)
+      return {
+        'success': false,
+        'message': 'An unexpected error occurred',
+      };
+    }
   }
 
   Map<String, String>? getAuthorizationHeader() {
@@ -66,12 +113,37 @@ class HttpUtil {
 
     return null; // No Authorization header if the token is null or empty
   }
-}
 
-//  String errorMessage = "Unknown error occurred";
-//       if (e.response != null) {
-//         // If there is a response, display the server response message
-//         errorMessage = e.response?.data['msg'] ??
-//             e.response?.data['message'] ??
-//             'Server error';
-//         print("Error Message from Server: $errorMessage");
+  String _handleDioError(DioException error) {
+    switch (error.type) {
+      case DioExceptionType.connectionTimeout:
+        // Handle connection timeout
+        return 'Connection Timeout';
+
+      case DioExceptionType.receiveTimeout:
+        // Handle receive timeout
+        return 'Receive Timeout';
+      case DioExceptionType.sendTimeout:
+        // Handle send timeout
+        return 'Send Timeout';
+      case DioExceptionType.unknown:
+        // Handle other errors
+        return 'Other Dio Error';
+      // if (error.response != null) {
+      //   print('Status Code: ${error.response?.statusCode}');
+      //   print('Error Data: ${error.response?.data}');
+      // }
+      // break;
+      case DioExceptionType.badResponse:
+        // Handle HTTP errors (e.g., 400, 500)
+        final err = error.response?.statusCode;
+        return err.toString();
+      // if (error.response?.data != null) {
+      //   print('Error Data: ${error.response?.data}');
+      // }
+      // break;
+      default:
+        return 'Unknown Dio Exception';
+    }
+  }
+}

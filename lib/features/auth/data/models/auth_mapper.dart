@@ -6,12 +6,13 @@ class AuthMapper {
     return UserSignUpRequestModel(
       email: entity.email,
       password: entity.password,
+      role: entity.role,
     );
   }
 
   static UserSignUpResponseEntity toEntity(UserSignUpResponseModel model) {
     return UserSignUpResponseEntity(
-      code: model.code,
+      success: model.success,
       msg: model.msg,
     );
   }
@@ -26,25 +27,8 @@ class AuthMapper {
   static UserSignInResponseEntity toEntitySignIn(
       UserSignInResponseModel model) {
     return UserSignInResponseEntity(
-      code: model.code,
+      success: model.success,
       msg: model.msg,
-      user: model.user,
-    );
-  }
-
-  static UserOtpSendRequestModel toModelSendOtp(
-      UserOtpSendRequestEntity entity) {
-    return UserOtpSendRequestModel(
-      email: entity.email,
-    );
-  }
-
-  static UserOtpSendResponseEntity toEntitySendotp(
-      UserOtpSendResponseModel model) {
-    return UserOtpSendResponseEntity(
-      code: model.code,
-      msg: model.msg,
-      user: model.user,
     );
   }
 
@@ -60,8 +44,8 @@ class AuthMapper {
   static UserVerifyOtpResponseEntity toEntityVerifyOtp(
       UserVerifyOtpResponseModel model) {
     return UserVerifyOtpResponseEntity(
-      code: model.code,
-      msg: model.msg,
+      success: model.success,
+      token: model.token,
       user: model.user,
     );
   }

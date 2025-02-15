@@ -1,23 +1,24 @@
-//It acts as interface or parent class or base model for UserModel class.. And we will require it througout our app to access user data..
+// It acts as interface or parent class or base model for UserModel class.. And we will require it througout our app to access user data..
 class UserSignUpRequestEntity {
   final String email;
   final String password;
+  final String role;
 
   UserSignUpRequestEntity({
     required this.email,
     required this.password,
+    required this.role,
   });
 }
 
 class UserSignUpResponseEntity {
-  int? code;
+  // int? code;
+  bool? success;
   String? msg;
-  UserEntity? user;
 
   UserSignUpResponseEntity({
-    this.code,
     this.msg,
-    this.user,
+    this.success,
   });
 }
 
@@ -32,33 +33,33 @@ class UserSignInRequestEntity {
 }
 
 class UserSignInResponseEntity {
-  int? code;
+  // int? code;
+  bool? success;
   String? msg;
-  UserEntity? user;
+  // UserEntity? user;
 
   UserSignInResponseEntity({
-    this.code,
+    this.success,
     this.msg,
-    this.user,
   });
 }
 
-class UserOtpSendRequestEntity {
-  final String email;
-  UserOtpSendRequestEntity({required this.email});
-}
+// class UserOtpSendRequestEntity {
+//   final String email;
+//   UserOtpSendRequestEntity({required this.email});
+// }
 
-class UserOtpSendResponseEntity {
-  int? code;
-  String? msg;
-  UserEntity? user;
+// class UserOtpSendResponseEntity {
+//   int? code;
+//   String? msg;
+//   UserEntity? user;
 
-  UserOtpSendResponseEntity({
-    this.code,
-    this.msg,
-    this.user,
-  });
-}
+//   UserOtpSendResponseEntity({
+//     this.code,
+//     this.msg,
+//     this.user,
+//   });
+// }
 
 class UserVerifyOtpRequestEntity {
   final String email;
@@ -70,59 +71,34 @@ class UserVerifyOtpRequestEntity {
 }
 
 class UserVerifyOtpResponseEntity {
-  int? code;
-  String? msg;
+  bool? success;
   UserEntity? user;
+  String? token;
 
   UserVerifyOtpResponseEntity({
-    this.code,
-    this.msg,
+    this.success,
+    this.token,
     this.user,
   });
 }
 
 class UserEntity {
-  final String? id;
-  final String? name;
+  final int? userId;
+  final String? username;
   final String? email;
-  String? token;
+  String? password;
   String? avatar;
   String? userType;
 
   UserEntity({
-    required this.id,
-    required this.name,
-    required this.email,
+    this.userId,
+    this.username,
+    this.email,
+    this.password,
+    this.avatar,
+    this.userType,
   });
 }
-
-// class UserItem {
-//   String? token;
-//   String? name;
-//   String? email;
-//   String? phone;
-//   String? avatar;
-//   int? online;
-//   int? loginType;
-// //  String? userType;
-//   String? address;
-//   String? academics;
-//   String? dob;
-
-//   UserItem({
-//     this.token,
-//     this.name,
-//     this.email,
-//     this.phone,
-//     this.avatar,
-//     this.online,
-//     this.loginType,
-//     this.address,
-//     this.academics,
-//     this.dob,
-// //    this.userType,
-//   });
-// }
 
 class NoParams {}
 

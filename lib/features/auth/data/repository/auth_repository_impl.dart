@@ -42,21 +42,21 @@ class AuthRepositoryImpl implements AuthRepository {
     }
   }
 
-  @override
-  Future<Either<Failure, UserOtpSendResponseEntity>> sendOtpToEmail(
-      {required UserOtpSendRequestEntity user}) async {
-    try {
-      // converting domain entity to data model
-      final requestModel = AuthMapper.toModelSendOtp(user);
-      final responseModel =
-          await authRemoteDataSource.sendOtpToEmail(user: requestModel);
-      // Convert data model back to domain entity
-      final responseEntity = AuthMapper.toEntitySendotp(responseModel);
-      return right(responseEntity);
-    } on ServerException catch (e) {
-      return left(Failure(e.message));
-    }
-  }
+  // @override
+  // Future<Either<Failure, UserOtpSendResponseEntity>> sendOtpToEmail(
+  //     {required UserOtpSendRequestEntity user}) async {
+  //   try {
+  //     // converting domain entity to data model
+  //     final requestModel = AuthMapper.toModelSendOtp(user);
+  //     final responseModel =
+  //         await authRemoteDataSource.sendOtpToEmail(user: requestModel);
+  //     // Convert data model back to domain entity
+  //     final responseEntity = AuthMapper.toEntitySendotp(responseModel);
+  //     return right(responseEntity);
+  //   } on ServerException catch (e) {
+  //     return left(Failure(e.message));
+  //   }
+  // }
 
   @override
   Future<Either<Failure, UserVerifyOtpResponseEntity>> verifyOtp(

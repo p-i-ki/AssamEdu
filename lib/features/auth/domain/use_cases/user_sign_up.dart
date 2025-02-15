@@ -12,8 +12,8 @@ class UserSignUp
   Future<Either<Failure, UserSignUpResponseEntity>> call(
     UserSignUpParams params,
   ) async {
-    final user =
-        UserSignUpRequestEntity(email: params.email, password: params.password);
+    final user = UserSignUpRequestEntity(
+        email: params.email, password: params.password, role: params.role);
     return await authRepository.signUpWithEmailPassword(
       user: user,
     );
@@ -24,9 +24,11 @@ class UserSignUp
 class UserSignUpParams {
   final String email;
   final String password;
+  final String role;
 
   UserSignUpParams({
     required this.email,
     required this.password,
+    required this.role,
   });
 }

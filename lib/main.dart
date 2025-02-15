@@ -8,10 +8,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  SystemChrome.setSystemUIOverlayStyle(
-      const SystemUiOverlayStyle(statusBarColor: Colors.black));
   await Global.init();
-  print("Initialization complete"); // Debugging line
   runApp(const MyApp());
 }
 
@@ -23,11 +20,28 @@ class MyApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: AppPages.allBlocProviders(context),
       child: ScreenUtilInit(
+        useInheritedMediaQuery: true,
+        designSize: const Size(412, 915),
+        minTextAdapt: true,
         builder: (context, child) {
           return MaterialApp(
-            builder: EasyLoading.init(),
+            builder: (context, widget) {
+              // Force status bar styling here
+              SystemChrome.setSystemUIOverlayStyle(
+                const SystemUiOverlayStyle(
+                  statusBarColor: Colors.black, // Set to black
+                  statusBarIconBrightness: Brightness.dark, // Icons in white
+                  statusBarBrightness: Brightness.dark, // For iOS
+                ),
+              );
+              return EasyLoading.init()(context, widget);
+            },
+            //builder: EasyLoading.init(),
             debugShowCheckedModeBanner: false,
             title: 'Assam Edu',
+            //----- Dark Themese to be added----
+            // themeMode: ThemeMode.dark,
+            // darkTheme: ThemeData(),
             theme: ThemeData(
               fontFamily: 'myfontsdroid',
               colorScheme: const ColorScheme.light(
@@ -36,7 +50,6 @@ class MyApp extends StatelessWidget {
               useMaterial3: true,
             ),
             onGenerateRoute: (settings) => AppPages.generateRoute(settings),
-            //home: const SignInScreen(),
           );
         },
       ),

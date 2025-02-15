@@ -22,8 +22,14 @@ class AppRoutes {
   //OTP
   static const String OTP = "/otp";
 
+  // Home Screen
+  static const String HOME_PAGE = "/home";
+
   //Student home page
   static const String STU_HM_PAGE = "/student-home";
+
+  //Educator home page
+  static const String EDU_HM_PAGE = "/educator-home";
 
   //Course Detail Page
   static const String Course_Detail_Page = "/course-detail";
@@ -36,4 +42,7 @@ class AppRoutes {
 
   //play course
   static const String Course_video_play = "/course-video-play";
+
+  //Educator upload part
+  static const String Create_course = "/create-course";
 }

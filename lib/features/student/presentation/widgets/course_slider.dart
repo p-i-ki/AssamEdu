@@ -2,7 +2,7 @@ import 'package:dots_indicator/dots_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:assam_edu/features/home/presentation/bloc/home_page_bloc.dart';
+import 'package:assam_edu/features/student/presentation/bloc/home_page_bloc.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 Widget slidersView(BuildContext context, HomePageInitial state) {

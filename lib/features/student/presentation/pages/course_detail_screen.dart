@@ -10,6 +10,15 @@ class CourseDetailScreen extends StatefulWidget {
 }
 
 class _CourseDetailScreenState extends State<CourseDetailScreen> {
+  Map<dynamic, dynamic> data = {};
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    data = ModalRoute.of(context)!.settings.arguments as Map;
+    // add event to fetch courses
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -35,11 +44,11 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       image: AssetImage(
                         'assets/images/python_course.jpg',
                       ))),
-              child: const Padding(
-                padding: EdgeInsets.only(left: 15.0, top: 2),
+              child: Padding(
+                padding: const EdgeInsets.only(left: 15.0, top: 2),
                 child: Text(
-                  'Python Basics to Advanced',
-                  style: TextStyle(
+                  data['title'],
+                  style: const TextStyle(
                       fontSize: 20,
                       fontWeight: FontWeight.bold,
                       color: Colors.white),
@@ -76,15 +85,15 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                             ]),
                       ),
                       Expanded(child: Container()),
-                      const DecoratedBox(
-                        decoration: BoxDecoration(
+                      DecoratedBox(
+                        decoration: const BoxDecoration(
                           color: Colors.white,
                         ),
                         child: Padding(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            'Rs 3999',
-                            style: TextStyle(
+                            data["price"],
+                            style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,
                                 fontWeight: FontWeight.w700),
@@ -147,7 +156,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   ),
                   const SizedBox(height: 10),
                   Text(
-                    "this is the best course in python by Nila Man a student of JEC and best friend of Maina , hope you will like this course . this course covers python basic to advance,you will learn various things such as loops, variables, switch-cases, array , Objects , OOPs also some important concepts of machine learning such as Numpy , Pandas etc...",
+                    data['desc'],
+                    // "this is the best course in python by Nila Man a student of JEC and best friend of Maina , hope you will like this course . this course covers python basic to advance,you will learn various things such as loops, variables, switch-cases, array , Objects , OOPs also some important concepts of machine learning such as Numpy , Pandas etc...",
                     style: TextStyle(
                       fontSize: 12,
                       color: HexColor('FFFFFF'),

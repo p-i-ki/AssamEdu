@@ -7,10 +7,9 @@ Widget whiteBox({
   String? type,
 }) {
   return Positioned(
-    left: type == 'otp' ? 51.w : 48.w,
-    right: type == 'otp' ? 51.w : 48.w,
-    //top: 550.h,
-    bottom: type == 'otp' ? 220.h : 164.h,
+    left: type == 'otp' ? 79.w : 72.w,
+    right: type == 'otp' ? 79.w : 72.w,
+    bottom: type == 'otp' ? 317.h : 250.h,
     child: SizedBox(
       height: 54.h,
       width: 300.w,

@@ -10,8 +10,9 @@ class GetStartedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print("Get started screen is executed");
     return Scaffold(
+      //extendBody: true,
+      // extendBodyBehindAppBar: true,
       body: SafeArea(
         child: Stack(
           children: [
@@ -27,10 +28,10 @@ class GetStartedScreen extends StatelessWidget {
                 buttonTextLeft: 'EDUCATOR',
                 buttonTextRight: 'LEARNER',
                 onPressedLeft: () {
-                  storeAndNavigate(context, AppRoutes.EDUCATOR, "Educator");
+                  storeAndNavigate(context, AppRoutes.EDUCATOR, "instructor");
                 },
                 onPressedRight: () {
-                  storeAndNavigate(context, AppRoutes.LEARNER, "Learner");
+                  storeAndNavigate(context, AppRoutes.LEARNER, "student");
                 }),
             //Get started text
             mainText(text: 'GET STARTED'),
@@ -43,12 +44,14 @@ class GetStartedScreen extends StatelessWidget {
   void storeAndNavigate(
       BuildContext context, String route, String userType) async {
     try {
-      print("Accessing StorageServices"); //
       final storageServices = getIt<StorageServices>();
-      await storageServices.setUserType(AppConstants.USER_TYPE, userType);
-      final save = await storageServices.setDeviceFirstOpen(
+      // Set user type
+      final userTypeSave =
+          await storageServices.setString(AppConstants.USER_TYPE, userType);
+      // Set deviceFirst open
+      final deviceFirstOpen = await storageServices.setDeviceFirstOpen(
           AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME, true);
-      if (save == true && context.mounted) {
+      if (userTypeSave && deviceFirstOpen && context.mounted) {
         Navigator.pushNamed(context, route);
       }
     } catch (e) {

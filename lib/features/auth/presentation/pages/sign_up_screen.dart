@@ -19,7 +19,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
-  String userType = "Student";
+  // String userType = "Student";
   final _formKey = GlobalKey<FormState>();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
@@ -76,8 +76,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   whiteBox(
                     text: "SIGNUP",
                     onTap: () {
-                      Navigator.pushNamed(context, AppRoutes.SIGN_IN);
-                      //submitFormData();
+                      submitFormData();
+                      // Navigator.pushNamed(context, AppRoutes.SIGN_IN);
                     },
                   ),
                   // Login form
@@ -115,10 +115,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               googleAuth(
                                   onTap: () {}, text: 'SIGNUP WITH GOOGLE'),
                               Container(
-                                height: 54.5.h,
-                                width: 50.w,
+                                height: 46.h,
+                                width: 45.w,
                                 margin:
-                                    EdgeInsets.only(left: 175.w, top: 13.6.h),
+                                    EdgeInsets.only(left: 175.w, top: 8.5.h),
                                 decoration:
                                     BoxDecoration(color: HexColor('8EB4C1')),
                               ),

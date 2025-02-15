@@ -4,12 +4,16 @@ import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/auth/presentation/pages/otp_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_up_screen.dart';
-import 'package:assam_edu/features/course/course_detail/presentation/pages/chapters_detail_screen.dart';
-import 'package:assam_edu/features/course/course_detail/presentation/pages/course_detail_screen.dart';
-import 'package:assam_edu/features/course/course_detail/presentation/pages/course_purchased.dart';
-import 'package:assam_edu/features/course/course_detail/presentation/pages/video_play_screen.dart';
-import 'package:assam_edu/features/home/presentation/bloc/home_page_bloc.dart';
-import 'package:assam_edu/features/home/presentation/pages/student_home_screen.dart';
+import 'package:assam_edu/features/course/course_create/presentation/bloc/create_course_bloc.dart';
+import 'package:assam_edu/features/course/course_create/presentation/pages/create_course.dart';
+import 'package:assam_edu/features/student/presentation/pages/chapters_detail_screen.dart';
+import 'package:assam_edu/features/student/presentation/pages/course_detail_screen.dart';
+import 'package:assam_edu/features/student/presentation/pages/course_purchased.dart';
+import 'package:assam_edu/features/student/presentation/pages/video_play_screen.dart';
+import 'package:assam_edu/features/student/presentation/bloc/home_page_bloc.dart';
+import 'package:assam_edu/features/educator/presentation/pages/educator_home_screen.dart';
+import 'package:assam_edu/features/home/presentation/pages/home_screen.dart';
+import 'package:assam_edu/features/student/presentation/pages/student_home_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/educator_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/get_started_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/splash_screen.dart';
@@ -68,9 +72,19 @@ class AppPages {
         ),
       ),
       PageEntity(
+        route: AppRoutes.HOME_PAGE,
+        page: const HomeScreen(),
+        //bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
+      ),
+      PageEntity(
         route: AppRoutes.STU_HM_PAGE,
         page: const StudentHomeScreen(),
         bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
+      ),
+      PageEntity(
+        route: AppRoutes.EDU_HM_PAGE,
+        page: const EducatorHomeScreen(),
+        // bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
       ),
       PageEntity(
         route: AppRoutes.Course_Detail_Page,
@@ -87,7 +101,12 @@ class AppPages {
       PageEntity(
         route: AppRoutes.Course_video_play,
         page: const VideoPlaySection(),
-      )
+      ),
+      PageEntity(
+        route: AppRoutes.Create_course,
+        page: const CreateCoursePage(),
+        bloc: BlocProvider(create: (_) => getIt<CreateCourseBloc>()),
+      ),
     ];
   }
 
@@ -113,8 +132,8 @@ class AppPages {
 
           bool deviceFirstOpen = storageServices.getDeviceFirstOpen();
           bool isLoggedIn = storageServices.getIsLoggedIn();
-          print("Device first open  ${deviceFirstOpen}");
-          print("User Logged in  ${isLoggedIn}");
+          print("Device first open  $deviceFirstOpen");
+          print("User Logged in  $isLoggedIn");
           if (settings.name == AppRoutes.GET_STARTED &&
               deviceFirstOpen &&
               isLoggedIn) {
@@ -149,17 +168,18 @@ class AppPages {
     }
     print('Invalid route name ${settings.name}'); // Debugging line
     return MaterialPageRoute(
-        builder: (_) => const Scaffold(
-              body: Center(
-                child: Text(
-                  'Page Does Not Exist',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.redAccent,
-                  ),
-                ),
-              ),
-            ));
+      builder: (_) => const Scaffold(
+        body: Center(
+          child: Text(
+            'Page Does Not Exist',
+            style: TextStyle(
+              fontSize: 20,
+              fontWeight: FontWeight.bold,
+              color: Colors.redAccent,
+            ),
+          ),
+        ),
+      ),
+    );
   }
 }

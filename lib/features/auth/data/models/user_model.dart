@@ -6,14 +6,14 @@ class UserSignUpRequestModel extends UserSignUpRequestEntity {
   UserSignUpRequestModel({
     required super.email,
     required super.password,
-    name = "piki",
+    required super.role,
   });
 
   Map<String, dynamic> toMap() {
     return {
-      'name': "piki",
       'email': email,
       'password': password,
+      'role': role,
     };
   }
 
@@ -22,16 +22,14 @@ class UserSignUpRequestModel extends UserSignUpRequestEntity {
 
 class UserSignUpResponseModel extends UserSignUpResponseEntity {
   UserSignUpResponseModel({
-    required super.code,
+    required super.success,
     required super.msg,
-    //required super.user, // assuming user is a part of the model
   });
 
   factory UserSignUpResponseModel.fromMap(Map<String, dynamic> map) {
     return UserSignUpResponseModel(
-      code: map['code'] ?? '',
-      msg: map['msg'] ?? '',
-      // user: UserModel.fromMap(map['user']), // Assuming you have a UserModel for 'user'
+      success: map['success'] ?? false,
+      msg: map['message'] ?? '',
     );
   }
 
@@ -41,7 +39,6 @@ class UserSignUpResponseModel extends UserSignUpResponseEntity {
 }
 
 class UserSignInRequestModel extends UserSignInRequestEntity {
-  String? name;
   UserSignInRequestModel({
     required super.email,
     required super.password,
@@ -49,7 +46,6 @@ class UserSignInRequestModel extends UserSignInRequestEntity {
 
   Map<String, dynamic> toMap() {
     return {
-      'name': "piki",
       'email': email,
       'password': password,
     };
@@ -60,59 +56,20 @@ class UserSignInRequestModel extends UserSignInRequestEntity {
 
 class UserSignInResponseModel extends UserSignInResponseEntity {
   UserSignInResponseModel({
-    required super.code,
+    required super.success,
     required super.msg,
-    required super.user, // assuming user is a part of the model
   });
 
   factory UserSignInResponseModel.fromMap(Map<String, dynamic> map) {
     return UserSignInResponseModel(
-      code: map['code'] ?? '',
-      msg: map['msg'] ?? '',
-      user: map['user'] != null
-          ? UserModel.fromMap(map['user'])
-          : null, // Assuming you have a UserModel for 'user'
+      success: map['success'] ?? false,
+      msg: map['message'] ?? '',
     );
   }
 
   // Remove fromJson since it's redundant now
   factory UserSignInResponseModel.fromJson(Map<String, dynamic> map) =>
       UserSignInResponseModel.fromMap(map);
-}
-
-class UserOtpSendRequestModel extends UserOtpSendRequestEntity {
-  UserOtpSendRequestModel({
-    required super.email,
-  });
-
-  Map<String, dynamic> toMap() {
-    return {
-      'email': email,
-    };
-  }
-
-  String toJson() => json.encode(toMap());
-}
-
-class UserOtpSendResponseModel extends UserOtpSendResponseEntity {
-  UserOtpSendResponseModel({
-    required super.code,
-    required super.msg,
-    required super.user, // assuming user is a part of the model
-  });
-
-  factory UserOtpSendResponseModel.fromMap(Map<String, dynamic> map) {
-    return UserOtpSendResponseModel(
-      code: map['code'] as int,
-      msg: map['msg'] ?? '',
-      user: UserModel.fromMap(
-          map['user']), // Assuming you have a UserModel for 'user'
-    );
-  }
-
-  // Remove fromJson since it's redundant now
-  factory UserOtpSendResponseModel.fromJson(Map<String, dynamic> map) =>
-      UserOtpSendResponseModel.fromMap(map);
 }
 
 class UserVerifyOtpRequestModel extends UserVerifyOtpRequestEntity {
@@ -133,15 +90,15 @@ class UserVerifyOtpRequestModel extends UserVerifyOtpRequestEntity {
 
 class UserVerifyOtpResponseModel extends UserVerifyOtpResponseEntity {
   UserVerifyOtpResponseModel({
-    required super.code,
-    required super.msg,
+    required super.success,
+    required super.token,
     required super.user, // assuming user is a part of the model
   });
 
   factory UserVerifyOtpResponseModel.fromMap(Map<String, dynamic> map) {
     return UserVerifyOtpResponseModel(
-      code: map['code'] as int,
-      msg: map['msg'] ?? '',
+      success: map['success'] as bool,
+      token: map['token'] ?? '',
       user: UserModel.fromMap(
           map['user']), // Assuming you have a UserModel for 'user'
     );
@@ -154,20 +111,19 @@ class UserVerifyOtpResponseModel extends UserVerifyOtpResponseEntity {
 
 class UserModel extends UserEntity {
   UserModel({
-    required super.id,
-    required super.name,
+    required super.userId,
     required super.email,
+    required super.password,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
     return UserModel(
-      id: map['id'] ?? '',
-      name: map['name'] ?? '',
+      userId: map['userId'] ?? '',
+      password: map['password'] ?? '',
       email: map['email'] ?? '',
     );
   }
 }
-
 
 // class UserSignUpResponseModel extends UserSignUpResponseEntity {
 //   final String id;

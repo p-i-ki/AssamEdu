@@ -9,8 +9,8 @@ abstract interface class AuthRepository {
   Future<Either<Failure, UserSignInResponseEntity>> signInWithEmailPassword(
       {required UserSignInRequestEntity user});
 
-  Future<Either<Failure, UserOtpSendResponseEntity>> sendOtpToEmail(
-      {required UserOtpSendRequestEntity user});
+  // Future<Either<Failure, UserOtpSendResponseEntity>> sendOtpToEmail(
+  //     {required UserOtpSendRequestEntity user});
 
   Future<Either<Failure, UserVerifyOtpResponseEntity>> verifyOtp(
       {required UserVerifyOtpRequestEntity user});

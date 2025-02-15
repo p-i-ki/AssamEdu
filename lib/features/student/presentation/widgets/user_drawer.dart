@@ -1,6 +1,9 @@
+import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/routes/names.dart';
+import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
-import 'package:assam_edu/features/home/presentation/widgets/demo_page.dart';
+import 'package:assam_edu/features/student/presentation/widgets/demo_page.dart';
+import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -17,8 +20,8 @@ class UserDrawer extends StatelessWidget {
         children: [
           Container(
             //margin: EdgeInsets.only(top: 40),
-            height: 100.h,
-            padding: EdgeInsets.all(5.h),
+            height: 130.h,
+            padding: EdgeInsets.only(top: 20.h),
             decoration: BoxDecoration(color: HexColor('3572EF')),
             child: const Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -90,10 +93,11 @@ class UserDrawer extends StatelessWidget {
               context: context,
               route: DemoPage.routeName),
           _createDrawerItem(
-              icon: Icons.logout,
-              text: 'Log Out',
-              context: context,
-              route: DemoPage.routeName),
+            icon: Icons.logout,
+            text: 'Log Out',
+            context: context,
+            // route: DemoPage.routeName,
+          ),
           const Divider(),
           _createDrawerItem(
               icon: Icons.contact_support,
@@ -111,13 +115,32 @@ Widget _createDrawerItem(
     {required IconData icon,
     required String text,
     Color? color,
-    required String route,
+    String? route,
     required BuildContext context}) {
   return ListTile(
     leading: Icon(icon, color: color ?? Colors.black),
     title: Text(text),
     onTap: () {
-      Navigator.pushNamed(context, route);
+      if (route != null) {
+        Navigator.pushNamed(context, route);
+      } else if (text == "Log Out") {
+        _logout(context);
+      }
     },
   );
+}
+
+void _logout(BuildContext context) async {
+  final storageService = getIt<StorageServices>();
+
+  bool deviceFirstOpen = await storageService
+      .deleteSharedPrefValue(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME);
+  bool userToken = await storageService
+      .deleteSharedPrefValue(AppConstants.STORAGE_USER_TOKEN_KEY);
+  bool userType = await storageService
+      .deleteSharedPrefValue(AppConstants.STORAGE_USER_PROFILE_KEY);
+  if (deviceFirstOpen && userToken && userType && context.mounted) {
+    Navigator.pushNamedAndRemoveUntil(
+        context, AppRoutes.GET_STARTED, (route) => false);
+  }
 }

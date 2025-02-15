@@ -43,25 +43,29 @@ class _SignInScreenState extends State<SignInScreen> {
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) {
             if (state is AuthSignInError) {
-              print(state.error);
+              //  print(state.error);
               EasyLoading.dismiss();
               showSnackBar(context, state.error);
             }
             if (state is AuthSignInSuccess) {
-              print('Otp Send to -${state.signInData.user!.email} ----');
-              context
-                  .read<AuthBloc>()
-                  .add(AuthSendOtpEvent(email: state.signInData.user!.email!));
-            }
-            if (state is AuthSendOtpSuccess) {
               EasyLoading.dismiss();
+              showSnackBar(context, state.signInData.msg!);
               Navigator.pushNamed(context, AppRoutes.OTP,
-                  arguments: {'email': state.otpData.user!.email});
+                  arguments: {"email": emailController.text.trim()});
+              // otp will be sent from the backend directly as soon as email and passwords are varified..
+              // context
+              //     .read<AuthBloc>()
+              //     .add(AuthSendOtpEvent(email: state.signInData.user!.email!));
             }
-            if (state is AuthSendOtpError) {
-              EasyLoading.dismiss();
-              showSnackBar(context, state.error);
-            }
+            // if (state is AuthSendOtpSuccess) {
+            //   EasyLoading.dismiss();
+            //   Navigator.pushNamed(context, AppRoutes.OTP,
+            //       arguments: {'email': state.otpData.user!.email});
+            // }
+            // if (state is AuthSendOtpError) {
+            //   EasyLoading.dismiss();
+            //   showSnackBar(context, state.error);
+            // }
           },
           builder: (context, state) {
             if (state is AuthLoading) {
@@ -79,9 +83,9 @@ class _SignInScreenState extends State<SignInScreen> {
                   whiteBox(
                     text: "LOGIN",
                     onTap: () {
+                      submitFormData();
                       //for testing purpose
-                      Navigator.pushNamed(context, AppRoutes.OTP);
-                      // submitFormData();
+                      // Navigator.pushNamed(context, AppRoutes.OTP);
                     },
                   ),
                   // Login form
@@ -91,7 +95,7 @@ class _SignInScreenState extends State<SignInScreen> {
                       children: [
                         Container(
                           width: 265.w,
-                          height: 256.h,
+                          height: 260.h,
                           padding: EdgeInsets.fromLTRB(20.w, 20.h, 20.w, 0.h),
                           decoration: BoxDecoration(
                             color: const Color.fromRGBO(85, 92, 170, 1.0),
@@ -113,21 +117,21 @@ class _SignInScreenState extends State<SignInScreen> {
                                 'password',
                                 passwordController,
                               ),
-                              SizedBox(height: 5.h),
+                              SizedBox(height: 3.h),
                               GestureDetector(
                                   onTap: () {},
                                   child: reusableText('FORGOT PASSWORD',
                                       fontSize: 10.sp)),
-                              SizedBox(height: 8.h),
+                              SizedBox(height: 6.h),
                               Center(child: reusableText('OR')),
-                              SizedBox(height: 8.h),
+                              SizedBox(height: 6.h),
                               Center(
                                   child: googleAuth(
                                       onTap: () {}, text: 'LOGIN WITH GOOGLE')),
                               Container(
-                                height: 50.1.h,
-                                width: 70.w,
-                                margin: EdgeInsets.only(left: 185.w, top: 4.h),
+                                height: 45.h,
+                                width: 40.w,
+                                margin: EdgeInsets.only(left: 180.w, top: 6.h),
                                 decoration:
                                     BoxDecoration(color: HexColor('8EB4C1')),
                               ),

@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 Widget backGroundScreen() {
-  print("backGroundScreen is Executed");
   return Positioned.fill(
     child: Container(
       color: const Color.fromRGBO(254, 245, 233, 1.0),
@@ -16,7 +15,7 @@ Widget backGroundScreen() {
             fontSize: 130.sp,
             color: const Color.fromRGBO(2, 124, 133, 1.0),
             fontWeight: FontWeight.bold,
-            height: 0.7.sp, // Adjust this value to reduce the gap
+            height: 0.73.sp, // Adjust this value to reduce the gap
           ),
           textAlign: TextAlign.start,
         ),
@@ -26,14 +25,13 @@ Widget backGroundScreen() {
 }
 
 Widget bookLogo() {
-  print("bookLogo is Executed");
   return Positioned(
     width: 225.w,
     height: 300.h,
-    left: 120.w,
+    left: 180.w,
     right: null,
     top: null,
-    bottom: 400.h,
+    bottom: 420.h,
     child: Image.asset(
       'assets/images/logo.png',
     ),
@@ -41,13 +39,12 @@ Widget bookLogo() {
 }
 
 Widget motivationText() {
-  print("motivationText is Executed");
   return Positioned(
     width: 200.w,
-    left: 220.w,
+    left: 230.w,
     right: null,
     top: null,
-    bottom: 400.h,
+    bottom: 460.h,
     child: Text(
       'Empowering Minds,\nEnriching Futures.',
       style: TextStyle(fontSize: 13.sp),
@@ -62,12 +59,11 @@ Widget navigationTextButton({
   required void Function()? onPressedLeft,
   required void Function()? onPressedRight,
 }) {
-  print("navigationTextButton is Executed");
   return Positioned(
     left: 55.w,
     right: 55.w,
-    top: 445.h,
-    bottom: 150.h,
+    top: 600.h,
+    bottom: 170.h,
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18.w)),
       color: const Color.fromRGBO(255, 248, 239, 1.0),
@@ -105,12 +101,11 @@ Widget navigationTextButton({
 }
 
 Widget mainText({required String text}) {
-  print("mainText is Executed");
   return Positioned(
     left: 55.w,
     right: 55.w,
-    top: 405.h,
-    bottom: 190.h,
+    top: 540.h,
+    bottom: 220.h,
     child: Card(
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(17.w)),
       color: const Color.fromRGBO(85, 92, 170, 1.0),
@@ -129,9 +124,9 @@ Widget mainText({required String text}) {
               textAlign: TextAlign.center,
             ),
             Container(
-              margin: EdgeInsets.fromLTRB(0, 10.h, 0, 0),
-              height: 50.h,
-              width: 44.w,
+              margin: EdgeInsets.fromLTRB(0, 20.5.h, 0, 0),
+              height: 52.h,
+              width: 45.w,
               color: const Color.fromRGBO(198, 205, 234, 1.0),
             ),
           ],
