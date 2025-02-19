@@ -62,3 +62,135 @@ class CourseItemModel extends CourseItem {
             "", // Handle potential int/String
       );
 }
+
+class CourseVideoRequestModel extends CourseVideoRequestEntity {
+  CourseVideoRequestModel({required super.courseId});
+  Map<String, dynamic> toMap() {
+    return {'courseId': courseId};
+  }
+
+  String toJson() => json.encode(toMap());
+}
+
+class CourseVideoResponseModel extends CourseVideoResponseEntity {
+  CourseVideoResponseModel({required super.success, required super.course});
+  factory CourseVideoResponseModel.fromJson(Map<String, dynamic> json) =>
+      CourseVideoResponseModel(
+        success: json["success"],
+        course: CourseModel.fromJson(json["course"]),
+      );
+
+  // Map<String, dynamic> toJson() => {
+  //       "message": success,
+  //       "course": course.toJson(),
+  //     };
+}
+
+class CourseModel extends Course {
+  CourseModel({
+    required super.courseId,
+    required super.title,
+    required super.description,
+    required super.price,
+    required super.thumbnailUrl,
+    required super.createdAt,
+    required super.updatedAt,
+    required super.instructorId,
+    required super.sections,
+  });
+
+  factory CourseModel.fromJson(Map<String, dynamic> json) => CourseModel(
+        courseId: json["courseId"] ?? "",
+        title: json["title"] ?? "",
+        description: json["description"] ?? "",
+        price: json["price"] ?? 0,
+        thumbnailUrl: json["thumbnailUrl"] ?? "",
+        createdAt: json["createdAt"] != null
+            ? DateTime.parse(json["createdAt"])
+            : null,
+        updatedAt: json["updatedAt"] != null
+            ? DateTime.parse(json["updatedAt"])
+            : null,
+        instructorId: json["instructorId"],
+        sections: List<Section>.from(
+            json["sections"].map((x) => SectionModel.fromJson(x))),
+      );
+
+  // Map<String, dynamic> toJson() => {
+  //     "courseId": courseId,
+  //     "title": title,
+  //     "description": description,
+  //     "price": price,
+  //     "thumbnailUrl": thumbnailUrl,
+  //     "createdAt": createdAt.toIso8601String(),
+  //     "updatedAt": updatedAt.toIso8601String(),
+  //     "instructorId": instructorId,
+  //     "sections": List<dynamic>.from(sections.map((x) => x.toJson())),
+  // };
+}
+
+class SectionModel extends Section {
+  SectionModel({
+    required super.sectionId,
+    required super.sectionName,
+    required super.createdAt,
+    required super.updatedAt,
+    required super.courseId,
+    required super.videos,
+  });
+
+  factory SectionModel.fromJson(Map<String, dynamic> json) => SectionModel(
+        sectionId: json["sectionId"],
+        sectionName: json["sectionName"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        courseId: json["courseId"],
+        videos:
+            List<Video>.from(json["videos"].map((x) => VideoModel.fromJson(x))),
+      );
+
+  // Map<String, dynamic> toJson() => {
+  //     "sectionId": sectionId,
+  //     "sectionName": sectionName,
+  //     "createdAt": createdAt.toIso8601String(),
+  //     "updatedAt": updatedAt.toIso8601String(),
+  //     "courseId": courseId,
+  //     "videos": List<dynamic>.from(videos.map((x) => x.toJson())),
+  // };
+}
+
+class VideoModel extends Video {
+  VideoModel({
+    required super.videoId,
+    required super.title,
+    required super.url,
+    required super.captionUrl,
+    required super.notes,
+    required super.createdAt,
+    required super.updatedAt,
+    required super.sectionId,
+  });
+
+  factory VideoModel.fromJson(Map<String, dynamic> json) => VideoModel(
+        videoId: json["videoId"],
+        title: json["title"],
+        url: json["url"],
+        captionUrl: json["captionUrl"],
+        notes: json["notes"],
+        createdAt: DateTime.parse(json["createdAt"]),
+        updatedAt: DateTime.parse(json["updatedAt"]),
+        sectionId: json["sectionId"],
+      );
+
+//     Map<String, dynamic> toJson() => {
+//         "videoId": videoId,
+//         "title": title,
+//         "url": url,
+//         "captionUrl": captionUrl,
+//         "notes": notes,
+//         "createdAt": createdAt.toIso8601String(),
+//         "updatedAt": updatedAt.toIso8601String(),
+//         "sectionId": sectionId,
+//     };
+// }
+}

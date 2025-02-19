@@ -114,6 +114,7 @@ class UserModel extends UserEntity {
     required super.userId,
     required super.email,
     required super.password,
+    required super.username,
   });
 
   factory UserModel.fromMap(Map<String, dynamic> map) {
@@ -121,6 +122,7 @@ class UserModel extends UserEntity {
       userId: map['userId'] ?? '',
       password: map['password'] ?? '',
       email: map['email'] ?? '',
+      username: map['username'] ?? '',
     );
   }
 }

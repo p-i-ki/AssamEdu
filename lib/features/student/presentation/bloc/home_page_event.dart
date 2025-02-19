@@ -14,3 +14,9 @@ class HomePageGetAllCourses extends HomePageEvent {
   final CourseListRequestEntity courseReq;
   const HomePageGetAllCourses({required this.courseReq});
 }
+
+class CourseVideoFetch extends HomePageEvent {
+  final CourseVideoRequestEntity requestEntity;
+
+  const CourseVideoFetch({required this.requestEntity});
+}

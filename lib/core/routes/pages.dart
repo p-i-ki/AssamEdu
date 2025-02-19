@@ -101,6 +101,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.Course_video_play,
         page: const VideoPlaySection(),
+        bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
       ),
       PageEntity(
         route: AppRoutes.Create_course,

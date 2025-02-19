@@ -13,6 +13,7 @@ import 'package:assam_edu/features/student/data/data_resources/get_course_remote
 import 'package:assam_edu/features/student/data/repository/get_course_repository_impl.dart';
 import 'package:assam_edu/features/student/domain/repository/get_course_repository.dart';
 import 'package:assam_edu/features/student/domain/use_cases/get_all_courses.dart';
+import 'package:assam_edu/features/student/domain/use_cases/get_course_videos.dart';
 import 'package:assam_edu/features/student/presentation/bloc/home_page_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
@@ -28,8 +29,8 @@ class Global {
     // Register Dio with base options
     getIt.registerSingleton<Dio>(Dio(BaseOptions(
       baseUrl: AppConstants.SERVER_API_URL,
-      connectTimeout: const Duration(seconds: 15),
-      receiveTimeout: const Duration(seconds: 15),
+      connectTimeout: const Duration(seconds: 200),
+      receiveTimeout: const Duration(seconds: 200),
       headers: {},
       contentType: "application/json; charset=utf-8",
       responseType: ResponseType.json,
@@ -71,9 +72,12 @@ void _initStudentHomePage() {
         getCourseRemoteDataSouce: getIt<GetCourseRemoteDataSource>()))
     // UseCases
     ..registerFactory(() => GetAllCourses(getIt<GetCourseRepository>()))
+    ..registerFactory(() => GetCourseVideos(getIt<GetCourseRepository>()))
     // Bloc
-    ..registerLazySingleton(
-        () => HomePageBloc(getAllCourses: getIt<GetAllCourses>()));
+    ..registerLazySingleton(() => HomePageBloc(
+          getAllCourses: getIt<GetAllCourses>(),
+          getCourseVideos: getIt<GetCourseVideos>(),
+        ));
 }
 
 void _initCreateCourse() {

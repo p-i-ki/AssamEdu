@@ -26,4 +26,20 @@ class GetCourseRepositoryImpl implements GetCourseRepository {
       return left(Failure(e.message));
     }
   }
+
+  @override
+  Future<Either<Failure, CourseVideoResponseEntity>> getCourseVideos(
+      {required CourseVideoRequestEntity courseReq}) async {
+    try {
+      // converting domain entity to data model
+      final requestModel = CourseMapper.toVideoRequestModel(courseReq);
+      final responseModel = await getCourseRemoteDataSouce.getCourseVideos(
+          courseReq: requestModel);
+      // Convert data model back to domain entity
+      final responseEntity = CourseMapper.toVideoResponseEntity(responseModel);
+      return right(responseEntity);
+    } on ServerException catch (e) {
+      return left(Failure(e.message));
+    }
+  }
 }

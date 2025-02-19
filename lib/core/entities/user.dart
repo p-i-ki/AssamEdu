@@ -76,27 +76,37 @@ class UserVerifyOtpResponseEntity {
   String? token;
 
   UserVerifyOtpResponseEntity({
-    this.success,
-    this.token,
-    this.user,
+    required this.success,
+    required this.token,
+    required this.user,
   });
 }
 
 class UserEntity {
-  final int? userId;
-  final String? username;
-  final String? email;
+  String? userId;
+  String? username;
+  String? email;
   String? password;
-  String? avatar;
-  String? userType;
+  String? role;
+  dynamic otp;
+  dynamic otpExpiration;
+  dynamic resetPasswordToken;
+  dynamic resetPasswordExpires;
+  DateTime? createdAt;
+  DateTime? updatedAt;
 
   UserEntity({
     this.userId,
     this.username,
     this.email,
     this.password,
-    this.avatar,
-    this.userType,
+    this.role,
+    this.otp,
+    this.otpExpiration,
+    this.resetPasswordToken,
+    this.resetPasswordExpires,
+    this.createdAt,
+    this.updatedAt,
   });
 }
 

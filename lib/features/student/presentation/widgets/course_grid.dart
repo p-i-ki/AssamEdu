@@ -15,11 +15,12 @@ Widget courseGrid({required CourseItem course}) {
         //image: NetworkImage(course.thumbnailUrl!),
         image: course.thumbnailUrl!.isNotEmpty // Check for null
             ? NetworkImage(
-                '${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}')
+                '${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}',
+              )
             : const AssetImage(
                 "assets/images/python_course.jpg"), // Provide a default
         fit: BoxFit
-            .cover, // Use BoxFit.cover or BoxFit.fitWidth for better scaling
+            .fitWidth, // Use BoxFit.cover or BoxFit.fitWidth for better scaling
       ),
     ),
     child: Padding(

@@ -37,3 +37,19 @@ final class HomePageGetAllCoursesError extends HomePageState {
 
   const HomePageGetAllCoursesError({required this.error});
 }
+
+// Play Videos
+
+final class CourseVideoFetchLoading extends HomePageState {}
+
+final class CourseVideoFetchSuccess extends HomePageState {
+  final Course responseEntity;
+
+  const CourseVideoFetchSuccess({required this.responseEntity});
+}
+
+final class CourseVideoFetchError extends HomePageState {
+  final String error;
+
+  const CourseVideoFetchError({required this.error});
+}

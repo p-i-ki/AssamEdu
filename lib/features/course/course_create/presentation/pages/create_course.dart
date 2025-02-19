@@ -92,16 +92,16 @@ class _CreateCoursePageState extends State<CreateCoursePage> {
   //   });
   // }
 
-  void _addDemoMaterial() {
-    setState(() {
-      _demoMaterials.add(DemoMaterial(
-        title: '',
-        type: '',
-        uploadPath: '',
-        description: '',
-      ));
-    });
-  }
+  // void _addDemoMaterial() {
+  //   setState(() {
+  //     _demoMaterials.add(DemoMaterial(
+  //       title: '',
+  //       type: '',
+  //       uploadPath: '',
+  //       description: '',
+  //     ));
+  //   });
+  // }
 
   void _createCourse(BuildContext context) {
     if (_formKey.currentState!.validate()) {

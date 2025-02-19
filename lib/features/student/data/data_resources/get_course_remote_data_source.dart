@@ -7,6 +7,8 @@ import 'package:dio/dio.dart';
 abstract interface class GetCourseRemoteDataSource {
   Future<CourseListResponseModel> getAllCourses(
       {required CourseListRequestModel courseReq});
+  Future<CourseVideoResponseModel> getCourseVideos(
+      {required CourseVideoRequestModel courseReq});
 }
 
 class GetCourseRemoteDataSourceImpl implements GetCourseRemoteDataSource {
@@ -22,6 +24,20 @@ class GetCourseRemoteDataSourceImpl implements GetCourseRemoteDataSource {
               headers: {AppConstants.STORAGE_USER_TOKEN_KEY: courseReq.token}));
       print("Response from DATA Layer ----> $res");
       return CourseListResponseModel.fromMap(res);
+    } catch (e) {
+      throw ServerException(e.toString());
+    }
+  }
+
+  @override
+  Future<CourseVideoResponseModel> getCourseVideos(
+      {required CourseVideoRequestModel courseReq}) async {
+    try {
+      final res = await httpUtil.get(
+        path: '/api/courses/${courseReq.courseId}',
+      );
+      print("Response from DATA Layer ----> $res");
+      return CourseVideoResponseModel.fromJson(res);
     } catch (e) {
       throw ServerException(e.toString());
     }

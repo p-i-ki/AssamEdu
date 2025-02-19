@@ -1,3 +1,4 @@
+import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -39,11 +40,10 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
               decoration: BoxDecoration(
                   //color: HexColor('FFF0D3'),
                   borderRadius: BorderRadius.circular(10),
-                  image: const DecorationImage(
+                  image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: AssetImage(
-                        'assets/images/python_course.jpg',
-                      ))),
+                      image: NetworkImage(
+                          '${AppConstants.SERVER_API_URL}/${data["thumbnailUrl"]}'))),
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0, top: 2),
                 child: Text(
@@ -128,7 +128,8 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                       IconButton(
                         onPressed: () {
                           Navigator.pushNamed(
-                              context, AppRoutes.Chapter_Detail_Page);
+                              context, AppRoutes.Course_video_play,
+                              arguments: {"courseId": data["courseId"]});
                         },
                         icon: const Icon(
                           Icons.play_circle_fill_sharp,

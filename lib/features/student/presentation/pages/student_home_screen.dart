@@ -72,8 +72,6 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    final sv = getIt<StorageServices>();
-    final String token = sv.getUserToken();
     if (!isRequestMade) {
       _fetchAllCourses();
     }
@@ -87,7 +85,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
           isCoursesFetched = true;
           isCoursesLoading = false;
           courses = state.courses;
-          print("------Courses Fetched Succesfully!!----------");
+          // print("------Courses Fetched Succesfully!!----------");
           // showSnackBar(context, "Courses Fetched Succesfully!!");
         }
       },
@@ -121,9 +119,8 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
                             fontSize: 15, color: Colors.grey.shade300),
                         maxLines: 1,
                       ),
-                      Text(token,
-                          style: const TextStyle(
-                              fontSize: 18, color: Colors.white),
+                      const Text("Piki Saikia",
+                          style: TextStyle(fontSize: 18, color: Colors.white),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis),
                     ],
@@ -450,7 +447,7 @@ class MyGridView extends StatelessWidget {
                   "title": courses[index].title,
                   "price": courses[index].price,
                   "desc": courses[index].description,
-                  "": courses[index].thumbnailUrl
+                  "thumbnailUrl": courses[index].thumbnailUrl
                 });
           },
           child: courseGrid(
