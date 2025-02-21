@@ -9,12 +9,16 @@ import 'package:assam_edu/features/auth/domain/use_cases/user_sign_up.dart';
 import 'package:assam_edu/features/auth/domain/use_cases/user_verify_otp.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/course/course_create/presentation/bloc/create_course_bloc.dart';
-import 'package:assam_edu/features/student/data/data_resources/get_course_remote_data_source.dart';
-import 'package:assam_edu/features/student/data/repository/get_course_repository_impl.dart';
-import 'package:assam_edu/features/student/domain/repository/get_course_repository.dart';
-import 'package:assam_edu/features/student/domain/use_cases/get_all_courses.dart';
-import 'package:assam_edu/features/student/domain/use_cases/get_course_videos.dart';
-import 'package:assam_edu/features/student/presentation/bloc/home_page_bloc.dart';
+import 'package:assam_edu/features/student/course_section/data/data_resources/course_section_remote_data_sources.dart';
+import 'package:assam_edu/features/student/course_section/data/repository/course_section_repository_impl.dart';
+import 'package:assam_edu/features/student/course_section/domain/repository/course_section_repository.dart';
+import 'package:assam_edu/features/student/course_section/domain/use_cases/get_course_videos.dart';
+import 'package:assam_edu/features/student/course_section/presentation/bloc/course_section_bloc.dart';
+import 'package:assam_edu/features/student/student_home/data/data_resources/get_course_remote_data_source.dart';
+import 'package:assam_edu/features/student/student_home/data/repository/get_course_repository_impl.dart';
+import 'package:assam_edu/features/student/student_home/domain/repository/get_course_repository.dart';
+import 'package:assam_edu/features/student/student_home/domain/use_cases/get_all_courses.dart';
+import 'package:assam_edu/features/student/student_home/presentation/bloc/bloc/student_home_screen_bloc.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
@@ -38,6 +42,7 @@ class Global {
     // Register HttpUtil with the injected Dio instance
     getIt.registerLazySingleton<HttpUtil>(() => HttpUtil(dio: getIt<Dio>()));
     _initStudentHomePage();
+    _initStudentCourseSection();
     _initCreateCourse();
   }
 }
@@ -72,12 +77,23 @@ void _initStudentHomePage() {
         getCourseRemoteDataSouce: getIt<GetCourseRemoteDataSource>()))
     // UseCases
     ..registerFactory(() => GetAllCourses(getIt<GetCourseRepository>()))
-    ..registerFactory(() => GetCourseVideos(getIt<GetCourseRepository>()))
     // Bloc
-    ..registerLazySingleton(() => HomePageBloc(
+    ..registerLazySingleton(() => StudentHomeScreenBloc(
           getAllCourses: getIt<GetAllCourses>(),
-          getCourseVideos: getIt<GetCourseVideos>(),
         ));
+}
+
+void _initStudentCourseSection() {
+  getIt
+    ..registerFactory<CourseSectionRemoteDataSource>(
+        () => CourseSectionRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<CourseSectionRepository>(() =>
+        CourseSectionRepositoryImpl(
+            getCourseRemoteDataSouce: getIt<CourseSectionRemoteDataSource>()))
+    ..registerFactory(() => GetCourseVideos(
+        courseSectionRepository: getIt<CourseSectionRepository>()))
+    ..registerLazySingleton(
+        () => CourseSectionBloc(getCourseVideos: getIt<GetCourseVideos>()));
 }
 
 void _initCreateCourse() {

@@ -6,14 +6,15 @@ import 'package:assam_edu/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_up_screen.dart';
 import 'package:assam_edu/features/course/course_create/presentation/bloc/create_course_bloc.dart';
 import 'package:assam_edu/features/course/course_create/presentation/pages/create_course.dart';
+import 'package:assam_edu/features/student/course_section/presentation/bloc/course_section_bloc.dart';
 import 'package:assam_edu/features/student/presentation/pages/chapters_detail_screen.dart';
-import 'package:assam_edu/features/student/presentation/pages/course_detail_screen.dart';
+import 'package:assam_edu/features/student/course_detail/presentation/pages/course_detail_screen.dart';
 import 'package:assam_edu/features/student/presentation/pages/course_purchased.dart';
-import 'package:assam_edu/features/student/presentation/pages/video_play_screen.dart';
-import 'package:assam_edu/features/student/presentation/bloc/home_page_bloc.dart';
+import 'package:assam_edu/features/student/course_section/presentation/pages/video_play_screen.dart';
 import 'package:assam_edu/features/educator/presentation/pages/educator_home_screen.dart';
 import 'package:assam_edu/features/home/presentation/pages/home_screen.dart';
-import 'package:assam_edu/features/student/presentation/pages/student_home_screen.dart';
+import 'package:assam_edu/features/student/student_home/presentation/bloc/bloc/student_home_screen_bloc.dart';
+import 'package:assam_edu/features/student/student_home/presentation/pages/student_home_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/educator_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/get_started_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/splash_screen.dart';
@@ -79,7 +80,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.STU_HM_PAGE,
         page: const StudentHomeScreen(),
-        bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
+        bloc: BlocProvider(create: (_) => getIt<StudentHomeScreenBloc>()),
       ),
       PageEntity(
         route: AppRoutes.EDU_HM_PAGE,
@@ -101,7 +102,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.Course_video_play,
         page: const VideoPlaySection(),
-        bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
+        bloc: BlocProvider(create: (_) => getIt<CourseSectionBloc>()),
       ),
       PageEntity(
         route: AppRoutes.Create_course,

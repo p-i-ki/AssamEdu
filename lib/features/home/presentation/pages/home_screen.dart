@@ -1,6 +1,6 @@
 import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/features/educator/presentation/pages/educator_home_screen.dart';
-import 'package:assam_edu/features/student/presentation/pages/student_home_screen.dart';
+import 'package:assam_edu/features/student/student_home/presentation/pages/student_home_screen.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 
