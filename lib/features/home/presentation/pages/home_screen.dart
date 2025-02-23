@@ -1,5 +1,5 @@
 import 'package:assam_edu/core/storage_service/storage_service.dart';
-import 'package:assam_edu/features/educator/presentation/pages/educator_home_screen.dart';
+import 'package:assam_edu/features/educator/educator_home/presentation/pages/educator_home_screen.dart';
 import 'package:assam_edu/features/student/student_home/presentation/pages/student_home_screen.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     final storageServices = getIt<StorageServices>();
     final String userType = storageServices.getUserType();
-    return userType == "Educator"
+    return userType == "instructor"
         ? const EducatorHomeScreen()
         : const StudentHomeScreen();
   }

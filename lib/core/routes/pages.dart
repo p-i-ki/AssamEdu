@@ -4,14 +4,14 @@ import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/auth/presentation/pages/otp_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_up_screen.dart';
-import 'package:assam_edu/features/course/course_create/presentation/bloc/create_course_bloc.dart';
-import 'package:assam_edu/features/course/course_create/presentation/pages/create_course.dart';
+import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
+import 'package:assam_edu/features/educator/course_create/presentation/pages/course_create_page.dart';
 import 'package:assam_edu/features/student/course_section/presentation/bloc/course_section_bloc.dart';
 import 'package:assam_edu/features/student/presentation/pages/chapters_detail_screen.dart';
 import 'package:assam_edu/features/student/course_detail/presentation/pages/course_detail_screen.dart';
 import 'package:assam_edu/features/student/presentation/pages/course_purchased.dart';
 import 'package:assam_edu/features/student/course_section/presentation/pages/video_play_screen.dart';
-import 'package:assam_edu/features/educator/presentation/pages/educator_home_screen.dart';
+import 'package:assam_edu/features/educator/educator_home/presentation/pages/educator_home_screen.dart';
 import 'package:assam_edu/features/home/presentation/pages/home_screen.dart';
 import 'package:assam_edu/features/student/student_home/presentation/bloc/bloc/student_home_screen_bloc.dart';
 import 'package:assam_edu/features/student/student_home/presentation/pages/student_home_screen.dart';
@@ -106,7 +106,7 @@ class AppPages {
       ),
       PageEntity(
         route: AppRoutes.Create_course,
-        page: const CreateCoursePage(),
+        page: const CourseCreatePage(),
         bloc: BlocProvider(create: (_) => getIt<CreateCourseBloc>()),
       ),
     ];
@@ -130,7 +130,7 @@ class AppPages {
         print('Valid route name ${settings.name}'); // Debugging line
         try {
           final storageServices = GetIt.instance<StorageServices>();
-          print("StorageServices instance accessed"); // Debugging line
+          // print("StorageServices instance accessed"); // Debugging line
 
           bool deviceFirstOpen = storageServices.getDeviceFirstOpen();
           bool isLoggedIn = storageServices.getIsLoggedIn();
@@ -141,7 +141,7 @@ class AppPages {
               isLoggedIn) {
             return MaterialPageRoute(
               builder: (_) =>
-                  const StudentHomeScreen(), // Replace with actual home page
+                  const HomeScreen(), // Replace with actual home page
             );
           }
           print(result.first.page);

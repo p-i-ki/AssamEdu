@@ -19,9 +19,18 @@ class HttpUtil {
     try {
       Options requestOptions = options ?? Options();
       requestOptions.headers = requestOptions.headers ?? {};
-      Map<String, dynamic>? authorization = getAuthorizationHeader();
-      if (authorization != null) {
-        requestOptions.headers!.addAll(authorization);
+      // Map<String, dynamic>? authorization = getAuthorizationHeader();
+      // if (authorization != null) {
+      //   requestOptions.headers!.addAll(authorization);
+      // }
+      // The ONLY place to get the token is from the passed 'options':
+      if (!requestOptions.headers!
+          .containsKey(AppConstants.STORAGE_USER_TOKEN_KEY)) {
+        // Check if 'token' exists
+        //Handle if the token is not passed
+        final sv = getIt<StorageServices>();
+        String token = sv.getUserToken();
+        requestOptions.headers![AppConstants.STORAGE_USER_TOKEN_KEY] = token;
       }
       print("------Post Method is Triggered: Path - $path, Data - $myData");
 

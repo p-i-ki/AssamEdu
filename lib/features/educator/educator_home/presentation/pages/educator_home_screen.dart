@@ -1,5 +1,6 @@
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
+import 'package:assam_edu/features/student/student_home/presentation/widgets/user_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -68,6 +69,7 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen> {
           ),
         ),
       ),
+      endDrawer: const UserDrawer(),
       body: Padding(
         padding: const EdgeInsets.all(8.0),
         child: Column(

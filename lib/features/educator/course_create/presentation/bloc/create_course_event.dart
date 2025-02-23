@@ -5,6 +5,6 @@ part of 'create_course_bloc.dart';
 sealed class CreateCourseEvent {}
 
 class AddCourse extends CreateCourseEvent {
-  final CreateCourseRequestEntity course;
+  final CourseCreateRequestEntity course;
   AddCourse({required this.course});
 }

@@ -8,7 +8,7 @@ final class CreateCourseInitial extends CreateCourseState {}
 final class CreateCourseLoading extends CreateCourseState {}
 
 final class CreateCourseSuccess extends CreateCourseState {
-  final CreateCourseResponseEntity response;
+  final Course response;
   CreateCourseSuccess({required this.response});
 }
 

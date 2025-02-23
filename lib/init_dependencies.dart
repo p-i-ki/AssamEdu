@@ -8,7 +8,11 @@ import 'package:assam_edu/features/auth/domain/use_cases/user_sign_in.dart';
 import 'package:assam_edu/features/auth/domain/use_cases/user_sign_up.dart';
 import 'package:assam_edu/features/auth/domain/use_cases/user_verify_otp.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
-import 'package:assam_edu/features/course/course_create/presentation/bloc/create_course_bloc.dart';
+import 'package:assam_edu/features/educator/course_create/data/data_resources/create_course_remote_data_source.dart';
+import 'package:assam_edu/features/educator/course_create/data/repository/create_course_repositoy_impl.dart';
+import 'package:assam_edu/features/educator/course_create/domain/repository/create_course_repository.dart';
+import 'package:assam_edu/features/educator/course_create/domain/use_cases/create_course.dart';
+import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
 import 'package:assam_edu/features/student/course_section/data/data_resources/course_section_remote_data_sources.dart';
 import 'package:assam_edu/features/student/course_section/data/repository/course_section_repository_impl.dart';
 import 'package:assam_edu/features/student/course_section/domain/repository/course_section_repository.dart';
@@ -41,6 +45,7 @@ class Global {
     )));
     // Register HttpUtil with the injected Dio instance
     getIt.registerLazySingleton<HttpUtil>(() => HttpUtil(dio: getIt<Dio>()));
+    // For memory optimization we need to add only one initialization , either for student or instructor..
     _initStudentHomePage();
     _initStudentCourseSection();
     _initCreateCourse();
@@ -97,5 +102,12 @@ void _initStudentCourseSection() {
 }
 
 void _initCreateCourse() {
-  getIt.registerLazySingleton(() => CreateCourseBloc());
+  getIt
+    ..registerFactory<CreateCourseRemoteDataSource>(
+        () => CreateCourseRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<CreateCourseRepository>(() => CreateCourseRepositoyImpl(
+        courseRemoteDataSource: getIt<CreateCourseRemoteDataSource>()))
+    ..registerFactory(() => CreateCourse(getIt<CreateCourseRepository>()))
+    ..registerLazySingleton(
+        () => CreateCourseBloc(createCourse: getIt<CreateCourse>()));
 }
