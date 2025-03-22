@@ -24,6 +24,7 @@ class CourseSections extends StatelessWidget {
         child: TabBarView(
           controller: tabController,
           children: [
+            // All
             Container(
               color: Colors.white,
               padding: const EdgeInsets.all(4),
@@ -32,28 +33,32 @@ class CourseSections extends StatelessWidget {
                 courses: courses,
               ),
             ),
+            // Popular
             Container(
-              color: Colors.red,
+              color: Colors.white,
               padding: const EdgeInsets.all(4),
               height: AppConstants.dHeight * 0.3,
               child: MyGridView(courses: courses),
             ),
+            // New
             Container(
-              color: Colors.blue,
+              color: Colors.white,
               padding: const EdgeInsets.all(4),
               height: AppConstants.dHeight * 0.3,
               child: MyGridView(
-                courses: courses,
+                courses: _newCourses(courses),
               ),
             ),
+            // Categories
             Container(
-              color: Colors.blueGrey,
+              color: Colors.white,
               padding: const EdgeInsets.all(4),
               height: AppConstants.dHeight * 0.3,
               child: MyGridView(courses: courses),
             ),
+            // BestSellers
             Container(
-              color: Colors.green,
+              color: Colors.white,
               padding: const EdgeInsets.all(4),
               height: AppConstants.dHeight * 0.3,
               child: MyGridView(courses: courses),
@@ -62,5 +67,13 @@ class CourseSections extends StatelessWidget {
         ),
       ),
     );
+  }
+
+// New courses will be considerd if created within 1 week from now
+  List<CourseItem> _newCourses(List<CourseItem> courses) {
+    DateTime sevenDaysAgo = DateTime.now().subtract(const Duration(days: 7));
+    List<CourseItem> newCourses =
+        courses.where((item) => item.createdAt!.isAfter(sevenDaysAgo)).toList();
+    return newCourses;
   }
 }

@@ -2,6 +2,7 @@ import 'dart:io';
 
 import 'package:assam_edu/core/common/widgets/app_style.dart';
 import 'package:assam_edu/core/common/widgets/custom_button.dart';
+import 'package:assam_edu/core/routes/names.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/educator/course_create/domain/entities/create_course.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
@@ -66,7 +67,7 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
         price: _priceController.text.trim(),
       );
       print(
-          "Form data : ${course.title}  ,${course.description}  ,${course.thumbnail}  ,${course.price}  ");
+          "Form data : \n${course.title}  ,\n${course.description}  ,\n thumbnail: ${course.thumbnail}  , \n ${course.price}  ");
       context.read<CreateCourseBloc>().add(AddCourse(course: course));
     }
   }
@@ -91,7 +92,8 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
         if (state is CreateCourseSuccess) {
           EasyLoading.dismiss();
           showSnackBar(context, "Course Created Succefully!");
-          Navigator.pop(context);
+          Navigator.pushNamed(context, AppRoutes.ADD_SECTION,
+              arguments: {"courseId": state.response.courseId});
         }
       },
       builder: (context, state) {
@@ -202,6 +204,8 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
                             child: _thumbnailPath == null
                                 ? const Center(
                                     child: Column(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
                                         Icon(
                                           Icons.add_a_photo,

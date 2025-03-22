@@ -19,11 +19,6 @@ class HttpUtil {
     try {
       Options requestOptions = options ?? Options();
       requestOptions.headers = requestOptions.headers ?? {};
-      // Map<String, dynamic>? authorization = getAuthorizationHeader();
-      // if (authorization != null) {
-      //   requestOptions.headers!.addAll(authorization);
-      // }
-      // The ONLY place to get the token is from the passed 'options':
       if (!requestOptions.headers!
           .containsKey(AppConstants.STORAGE_USER_TOKEN_KEY)) {
         // Check if 'token' exists
@@ -128,7 +123,6 @@ class HttpUtil {
       case DioExceptionType.connectionTimeout:
         // Handle connection timeout
         return 'Connection Timeout';
-
       case DioExceptionType.receiveTimeout:
         // Handle receive timeout
         return 'Receive Timeout';
@@ -138,19 +132,10 @@ class HttpUtil {
       case DioExceptionType.unknown:
         // Handle other errors
         return 'Other Dio Error';
-      // if (error.response != null) {
-      //   print('Status Code: ${error.response?.statusCode}');
-      //   print('Error Data: ${error.response?.data}');
-      // }
-      // break;
       case DioExceptionType.badResponse:
         // Handle HTTP errors (e.g., 400, 500)
         final err = error.response?.statusCode;
         return err.toString();
-      // if (error.response?.data != null) {
-      //   print('Error Data: ${error.response?.data}');
-      // }
-      // break;
       default:
         return 'Unknown Dio Exception';
     }

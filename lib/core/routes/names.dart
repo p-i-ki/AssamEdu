@@ -28,9 +28,6 @@ class AppRoutes {
   //Student home page
   static const String STU_HM_PAGE = "/student-home";
 
-  //Educator home page
-  static const String EDU_HM_PAGE = "/educator-home";
-
   //Course Detail Page
   static const String Course_Detail_Page = "/course-detail";
 
@@ -43,6 +40,15 @@ class AppRoutes {
   //play course
   static const String Course_video_play = "/course-video-play";
 
+  //Educator home page
+  static const String EDU_HM_PAGE = "/educator-home";
+
   //Educator upload part
   static const String Create_course = "/create-course";
+
+  // Educator add section
+  static const String ADD_SECTION = "/add-section";
+
+  // Educator course detail-screen
+  static const String EDU_COURSE_DETAIL = "/edu-course-detail";
 }

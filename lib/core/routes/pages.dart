@@ -4,8 +4,12 @@ import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/auth/presentation/pages/otp_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_in_screen.dart';
 import 'package:assam_edu/features/auth/presentation/pages/sign_up_screen.dart';
+import 'package:assam_edu/features/educator/add_sections/presentation/bloc/add_section_bloc.dart';
+import 'package:assam_edu/features/educator/add_sections/presentation/pages/add_sections_screen.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/pages/course_create_page.dart';
+import 'package:assam_edu/features/educator/course_detail/presentation/bloc/educator_course_detail_screen_bloc.dart';
+import 'package:assam_edu/features/educator/course_detail/presentation/pages/educator_course_detail_sceen.dart';
 import 'package:assam_edu/features/student/course_section/presentation/bloc/course_section_bloc.dart';
 import 'package:assam_edu/features/student/presentation/pages/chapters_detail_screen.dart';
 import 'package:assam_edu/features/student/course_detail/presentation/pages/course_detail_screen.dart';
@@ -23,6 +27,8 @@ import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
+
+import '../../features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
 
 class PageEntity {
   String route;
@@ -85,7 +91,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.EDU_HM_PAGE,
         page: const EducatorHomeScreen(),
-        // bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
+        bloc: BlocProvider(create: (_) => getIt<EducatorHomeScreenBloc>()),
       ),
       PageEntity(
         route: AppRoutes.Course_Detail_Page,
@@ -109,6 +115,17 @@ class AppPages {
         page: const CourseCreatePage(),
         bloc: BlocProvider(create: (_) => getIt<CreateCourseBloc>()),
       ),
+      PageEntity(
+        route: AppRoutes.ADD_SECTION,
+        page: const AddSectionsScreen(),
+        bloc: BlocProvider(create: (_) => getIt<AddSectionBloc>()),
+      ),
+      PageEntity(
+        route: AppRoutes.EDU_COURSE_DETAIL,
+        page: const EducatorCourseDetailSceen(),
+        bloc: BlocProvider(
+            create: (_) => getIt<EducatorCourseDetailScreenBloc>()),
+      )
     ];
   }
 

@@ -5,7 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-Widget slidersView(BuildContext context, HomePageDotChangeSuccessful state) {
+Widget slidersView(BuildContext context, StudentHomeScreenState state) {
   return Column(
     children: [
       SizedBox(

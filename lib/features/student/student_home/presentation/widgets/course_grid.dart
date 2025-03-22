@@ -3,24 +3,24 @@ import 'package:assam_edu/core/entities/course.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-//const String BASE_IMAGE_URL = "${AppConstants.SERVER_API_URL}/uploads/images/";
 Widget courseGrid({required CourseItem course}) {
-  //String thumbnailUrl = course.thumbnailUrl ?? ""; // Handle null
-  // String fileName = extractFileName(thumbnailUrl); // Extract filename
+  final url = course.thumbnailUrl!.contains('http://10.3.0.253:4000')
+      ? course.thumbnailUrl
+      : "${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}";
+  print('--------- Image URL -------: $url');
   return Container(
     decoration: BoxDecoration(
       color: Colors.redAccent.withValues(alpha: 0.4),
       borderRadius: BorderRadius.circular(8.w),
       image: DecorationImage(
-        //image: NetworkImage(course.thumbnailUrl!),
         image: course.thumbnailUrl!.isNotEmpty // Check for null
             ? NetworkImage(
-                '${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}',
+                '$url',
               )
             : const AssetImage(
                 "assets/images/python_course.jpg"), // Provide a default
         fit: BoxFit
-            .fitWidth, // Use BoxFit.cover or BoxFit.fitWidth for better scaling
+            .cover, // Use BoxFit.cover or BoxFit.fitWidth for better scaling
       ),
     ),
     child: Padding(
@@ -38,9 +38,9 @@ Widget courseGrid({required CourseItem course}) {
               textAlign: TextAlign.left,
               softWrap: true, //want text into a new line
               style: TextStyle(
-                  color: Colors.red,
-                  // fontWeight: FontWeight.bold,
-                  fontSize: 11.sp),
+                  fontWeight: FontWeight.w600,
+                  color: Colors.black,
+                  fontSize: 15.sp),
             ),
           )
         ],

@@ -1,4 +1,3 @@
-import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -42,8 +41,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                   borderRadius: BorderRadius.circular(10),
                   image: DecorationImage(
                       fit: BoxFit.cover,
-                      image: NetworkImage(
-                          '${AppConstants.SERVER_API_URL}/${data["thumbnailUrl"]}'))),
+                      image: NetworkImage('${data["thumbnailUrl"]}'))),
               child: Padding(
                 padding: const EdgeInsets.only(left: 15.0, top: 2),
                 child: Text(
@@ -92,7 +90,7 @@ class _CourseDetailScreenState extends State<CourseDetailScreen> {
                         child: Padding(
                           padding: const EdgeInsets.all(8.0),
                           child: Text(
-                            data["price"],
+                            "${data["price"]}",
                             style: const TextStyle(
                                 color: Colors.black,
                                 fontSize: 18,

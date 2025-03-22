@@ -8,11 +8,26 @@ import 'package:assam_edu/features/auth/domain/use_cases/user_sign_in.dart';
 import 'package:assam_edu/features/auth/domain/use_cases/user_sign_up.dart';
 import 'package:assam_edu/features/auth/domain/use_cases/user_verify_otp.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
+import 'package:assam_edu/features/educator/add_sections/data/data%20source/add_section_remote_data_source.dart';
+import 'package:assam_edu/features/educator/add_sections/data/repository/add_section_repository_impl.dart';
+import 'package:assam_edu/features/educator/add_sections/domain/repository/add_section_repository.dart';
+import 'package:assam_edu/features/educator/add_sections/domain/use%20cases/add_section_name.dart';
+import 'package:assam_edu/features/educator/add_sections/domain/use%20cases/add_section_video.dart';
+import 'package:assam_edu/features/educator/add_sections/presentation/bloc/add_section_bloc.dart';
 import 'package:assam_edu/features/educator/course_create/data/data_resources/create_course_remote_data_source.dart';
 import 'package:assam_edu/features/educator/course_create/data/repository/create_course_repositoy_impl.dart';
 import 'package:assam_edu/features/educator/course_create/domain/repository/create_course_repository.dart';
 import 'package:assam_edu/features/educator/course_create/domain/use_cases/create_course.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
+import 'package:assam_edu/features/educator/course_detail/data/repository/get_section_repository_impl.dart';
+import 'package:assam_edu/features/educator/course_detail/domain/repository/get_sections_repository.dart';
+import 'package:assam_edu/features/educator/course_detail/domain/use_cases/get_sections.dart';
+import 'package:assam_edu/features/educator/course_detail/presentation/bloc/educator_course_detail_screen_bloc.dart';
+import 'package:assam_edu/features/educator/educator_home/data/data_resource/get_instructor_course_remote_data_source.dart';
+import 'package:assam_edu/features/educator/educator_home/data/repository/get_instructor_course_repository_impl.dart';
+import 'package:assam_edu/features/educator/educator_home/domain/repository/get_instructor_course_repository.dart';
+import 'package:assam_edu/features/educator/educator_home/domain/use_cases/get_instructor_courses.dart';
+import 'package:assam_edu/features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
 import 'package:assam_edu/features/student/course_section/data/data_resources/course_section_remote_data_sources.dart';
 import 'package:assam_edu/features/student/course_section/data/repository/course_section_repository_impl.dart';
 import 'package:assam_edu/features/student/course_section/domain/repository/course_section_repository.dart';
@@ -26,6 +41,8 @@ import 'package:assam_edu/features/student/student_home/presentation/bloc/bloc/s
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 
+import 'features/educator/course_detail/data/data_resources/get_sections_remote_data_source.dart';
+
 final GetIt getIt = GetIt.instance;
 
 class Global {
@@ -37,8 +54,8 @@ class Global {
     // Register Dio with base options
     getIt.registerSingleton<Dio>(Dio(BaseOptions(
       baseUrl: AppConstants.SERVER_API_URL,
-      connectTimeout: const Duration(seconds: 200),
-      receiveTimeout: const Duration(seconds: 200),
+      connectTimeout: const Duration(seconds: 30),
+      receiveTimeout: const Duration(seconds: 30),
       headers: {},
       contentType: "application/json; charset=utf-8",
       responseType: ResponseType.json,
@@ -49,6 +66,9 @@ class Global {
     _initStudentHomePage();
     _initStudentCourseSection();
     _initCreateCourse();
+    _initAddSectionName();
+    _initEducatorHome();
+    _initEducatorGetSections();
   }
 }
 
@@ -110,4 +130,44 @@ void _initCreateCourse() {
     ..registerFactory(() => CreateCourse(getIt<CreateCourseRepository>()))
     ..registerLazySingleton(
         () => CreateCourseBloc(createCourse: getIt<CreateCourse>()));
+}
+
+void _initAddSectionName() {
+  getIt
+    ..registerFactory<AddSectionRemoteDataSource>(
+        () => AddSectionRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<AddSectionRepository>(() => AddSectionRepositoryImpl(
+        addSectionRemoteDataSource: getIt<AddSectionRemoteDataSource>()))
+    ..registerFactory(() => AddSectionName(getIt<AddSectionRepository>()))
+    ..registerFactory(() => AddSectionVideo(getIt<AddSectionRepository>()))
+    ..registerLazySingleton(() => AddSectionBloc(
+        addSectionName: getIt<AddSectionName>(),
+        addSectionVideo: getIt<AddSectionVideo>()));
+}
+
+void _initEducatorHome() {
+  getIt
+    ..registerFactory<GetInstructorCourseRemoteDataSource>(() =>
+        GetInstructorCourseRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<GetInstructorCourseRepository>(() =>
+        GetInstructorCourseRepositoryImpl(
+            getIt<GetInstructorCourseRemoteDataSource>()))
+    ..registerFactory(() => GetInstructorCourses(
+        getInstructorCourseRepository: getIt<GetInstructorCourseRepository>()))
+    ..registerLazySingleton(() => EducatorHomeScreenBloc(
+          getInstructor: getIt<GetInstructorCourses>(),
+        ));
+}
+
+void _initEducatorGetSections() {
+  getIt
+    ..registerFactory<GetSectionsRemoteDataSource>(
+        () => GetSectionsRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<GetSectionsRepository>(() => GetSectionRepositoryImpl(
+        getSectionsRemoteDataSource: getIt<GetSectionsRemoteDataSource>()))
+    ..registerFactory(() =>
+        GetSections(getSectionsRepository: getIt<GetSectionsRepository>()))
+    ..registerLazySingleton(() => EducatorCourseDetailScreenBloc(
+          getSections: getIt<GetSections>(),
+        ));
 }

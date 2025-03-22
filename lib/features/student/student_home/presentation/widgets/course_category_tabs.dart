@@ -1,6 +1,5 @@
 import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/common/widgets/app_style.dart';
-import 'package:assam_edu/core/common/widgets/resuable_text.dart';
 import 'package:flutter/material.dart';
 import 'package:hexcolor/hexcolor.dart';
 
@@ -27,102 +26,39 @@ class CourseCategoryTabs extends StatelessWidget {
       ),
       child: TabBar(
         controller: tabController,
-
+        dividerColor: Colors.white,
         padding: EdgeInsets.zero,
         indicator: BoxDecoration(
           color: HexColor('050C9C'),
           borderRadius:
               const BorderRadius.all(Radius.circular(AppConstants.dRadius)),
         ),
-        indicatorSize: TabBarIndicatorSize.label,
-
+        indicatorSize: TabBarIndicatorSize.tab,
         labelPadding: EdgeInsets.zero,
         isScrollable:
             false, // Keep isScrollable set to false for uniform spacing
         labelStyle: appStyle(
-          size: 20,
-          color: Colors.white,
-          fontWeight: FontWeight.w700,
+          size: 14,
+          color: Colors.black,
+          fontWeight: FontWeight.normal,
         ),
-        unselectedLabelColor: Colors.white,
-        // tabs:
-        //     _tabs.map((tabTitle) => _buildTab(tabTitle)).toList(),
-        tabs: [
-          // Use a fixed width for each tab
+        labelColor: Colors.white,
+        unselectedLabelColor: Colors.black,
+        tabs: const [
           Tab(
-            child: SizedBox(
-              width: AppConstants.dWidth * 0.2, // Adjust width for all tabs
-              child: Center(
-                child: ReusableText(
-                  text: "All",
-                  style: appStyle(
-                    size: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
+            text: "All",
           ),
           Tab(
-            child: SizedBox(
-              width: AppConstants.dWidth * 0.2, // Adjust width for all tabs
-              child: Center(
-                child: ReusableText(
-                  text: "Popular",
-                  style: appStyle(
-                    size: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
+            text: "Popular",
           ),
           Tab(
-            child: SizedBox(
-              width: AppConstants.dWidth * 0.2, // Adjust width for all tabs
-              child: Center(
-                child: ReusableText(
-                  text: "New",
-                  style: appStyle(
-                    size: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
+            text: "New",
           ),
           Tab(
-            child: SizedBox(
-              width: AppConstants.dWidth * 0.2, // Adjust width for all tabs
-              child: Center(
-                child: ReusableText(
-                  text: "Categories",
-                  style: appStyle(
-                    size: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
+            text: "Categories",
           ),
           Tab(
-            child: SizedBox(
-              width: AppConstants.dWidth * 0.2, // Adjust width for all tabs
-              child: Center(
-                child: ReusableText(
-                  text: "BestSellers",
-                  style: appStyle(
-                    size: 14,
-                    color: Colors.black,
-                    fontWeight: FontWeight.normal,
-                  ),
-                ),
-              ),
-            ),
+            text: "BestSellers",
           ),
         ],
       ),

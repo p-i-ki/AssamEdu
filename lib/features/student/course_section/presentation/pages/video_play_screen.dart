@@ -218,9 +218,9 @@ class _VideoPlaySectionState extends State<VideoPlaySection> {
                                         borderRadius: BorderRadius.circular(14),
                                         image: DecorationImage(
                                             image: NetworkImage(
-                                                '${AppConstants.SERVER_API_URL}/${courseData.thumbnailUrl}'),
+                                                '${courseData.thumbnailUrl}'),
                                             // image: AssetImage('assets/pyhton.jpg'),
-                                            fit: BoxFit.fitWidth)),
+                                            fit: BoxFit.cover)),
                                   ),
                                 ],
                               ),
@@ -379,24 +379,18 @@ class _VideoPlaySectionState extends State<VideoPlaySection> {
             return _isVideoInitialized
                 ? VideoPlayerWidget(controller: controller!)
                 : const Center(child: CircularProgressIndicator());
-            // print("Final Video URL: $uri");
-            // // Initialize Video Player
-            // initializeVideoPlayer(uri);
-            // return VideoPlayerWidget(
-            //   controller: controller!,
-            // );
           } else {
-            print('URL list is empty');
+            //  print('URL list is empty');
             return const Center(
                 child: Text('URL list is empty')); // Return a widget
           }
         } catch (e) {
-          print('Error decoding URL: $e');
+          // print('Error decoding URL: $e');
           return const Center(
               child: Text("Something went wrong!")); // Return a widget
         }
       } else {
-        print('URL is null');
+        // print('URL is null');
         return const Center(child: Text('URL is null')); // Return a widget
       }
     } else {

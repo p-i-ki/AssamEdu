@@ -9,6 +9,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Global.init();
+  configLoading();
   runApp(const MyApp());
 }
 
@@ -55,4 +56,20 @@ class MyApp extends StatelessWidget {
       ),
     );
   }
+}
+
+void configLoading() {
+  EasyLoading.instance
+    ..displayDuration = const Duration(milliseconds: 2000)
+    ..indicatorType = EasyLoadingIndicatorType.fadingCircle
+    ..loadingStyle = EasyLoadingStyle.custom // Use custom style
+    ..indicatorSize = 45.0
+    ..radius = 10.0
+    ..progressColor = Colors.yellow
+    ..backgroundColor = Colors.transparent // Make background transparent
+    ..indicatorColor = Colors.yellow
+    ..textColor = Colors.yellow
+    ..maskColor = Colors.blue.withValues(alpha: 0.5)
+    ..userInteractions = true
+    ..dismissOnTap = false;
 }

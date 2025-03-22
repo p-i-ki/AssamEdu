@@ -22,7 +22,7 @@ class StudentHomeScreenBloc
     HomePageDotsChange event,
     Emitter<StudentHomeScreenState> emit,
   ) {
-    emit(HomePageDotChangeSuccessful(index: event.index));
+    emit(StudentHomeScreenState(index: event.index));
   }
 
   void _getCourses(
