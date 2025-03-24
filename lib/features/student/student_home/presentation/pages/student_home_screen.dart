@@ -13,6 +13,9 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../../core/app_constants/app_constants.dart';
+import '../../../../../core/routes/names.dart';
+
 // We need separete bloc for other pages ,, so that we can preserve the state of each page..
 
 class StudentHomeScreen extends StatefulWidget {
@@ -143,7 +146,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
         endDrawer: const UserDrawer(),
         body: CustomScrollView(
           slivers: [
-            SliverToBoxAdapter(child: SizedBox(height: 15.h)),
+            SliverToBoxAdapter(child: SizedBox(height: 10.h)),
             SliverToBoxAdapter(
               child: Row(
                 children: [
@@ -151,65 +154,117 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
                     child: Container(
                       margin: EdgeInsets.only(left: 13.w),
                       height: 40.h,
-                      child: SearchAnchor(builder:
-                          (BuildContext context, SearchController controller) {
-                        return SearchBar(
-                          // backgroundColor:
-                          //     const WidgetStatePropertyAll(Colors.grey),
-                          controller: controller,
-                          hintText: "search",
-                          side: const WidgetStatePropertyAll(
-                              BorderSide(color: Colors.grey)),
-                          elevation: const WidgetStatePropertyAll(0),
-                          shape: WidgetStatePropertyAll(BeveledRectangleBorder(
-                              borderRadius: BorderRadius.circular(2.w))),
-                          padding: WidgetStatePropertyAll<EdgeInsets>(
-                              EdgeInsets.symmetric(
-                            horizontal: 2.w,
-                          )),
-                          onTap: () {
-                            controller.openView();
-                          },
-                          onChanged: (_) {
-                            controller.openView();
-                          },
-                          leading: Padding(
-                            padding: EdgeInsets.all(8.w),
-                            child: const Icon(Icons.search),
-                          ),
-                        );
-                      }, suggestionsBuilder:
-                          (BuildContext context, SearchController controller) {
-                        return List<ListTile>.generate(5, (int index) {
-                          final String item = 'course $index';
-                          return ListTile(
-                            title: Text(item),
+                      child: SearchAnchor(
+                        builder: (BuildContext context,
+                            SearchController controller) {
+                          return SearchBar(
+                            controller: controller,
+                            hintText: "Search courses",
+                            side: const WidgetStatePropertyAll(
+                              BorderSide(color: Colors.grey),
+                            ),
+                            elevation: const WidgetStatePropertyAll(0),
+                            shape: WidgetStatePropertyAll(
+                              BeveledRectangleBorder(
+                                borderRadius: BorderRadius.circular(2.w),
+                              ),
+                            ),
+                            padding: WidgetStatePropertyAll<EdgeInsets>(
+                              EdgeInsets.symmetric(horizontal: 2.w),
+                            ),
                             onTap: () {
-                              setState(() {
-                                controller.closeView(item);
-                              });
+                              controller.openView();
                             },
+                            onChanged: (value) {
+                              setState(() {}); // Update UI dynamically
+                            },
+                            leading: Padding(
+                              padding: EdgeInsets.all(8.w),
+                              child: const Icon(Icons.search),
+                            ),
                           );
-                        });
-                      }),
+                        },
+                        suggestionsBuilder: (BuildContext context,
+                            SearchController controller) {
+                          final query = controller.text.trim().toLowerCase();
+
+                          // If query is empty, do not show any suggestions
+                          if (query.isEmpty) return [];
+
+                          // Filter courses that contain the search query in the title
+                          final List<CourseItem> filteredCourses = courses
+                              .where((course) =>
+                                  course.title!.toLowerCase().contains(query))
+                              .toList();
+
+                          // If no matches found, show "No courses found" message
+                          if (filteredCourses.isEmpty) {
+                            return [
+                              const Padding(
+                                padding: EdgeInsets.all(10),
+                                child: Text(
+                                  "No courses found",
+                                  style: TextStyle(color: Colors.grey),
+                                ),
+                              )
+                            ];
+                          }
+
+                          // Display filtered course suggestions
+                          return filteredCourses.map((course) {
+                            final imageUrl = course.thumbnailUrl!
+                                    .startsWith('http')
+                                ? course.thumbnailUrl!
+                                : "${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}";
+                            //  print("------ $imageUrl ------");
+                            return ListTile(
+                              leading: Image.network(
+                                imageUrl,
+                                fit: BoxFit.cover,
+                                width: 40,
+                                height: 40,
+                                errorBuilder: (context, error, stackTrace) =>
+                                    const Icon(Icons.image_not_supported),
+                              ),
+                              title: Text(course.title!),
+                              onTap: () {
+                                // Close search and navigate to course details
+                                //  controller.closeView(course.title!);
+                                Navigator.pushNamed(
+                                  context,
+                                  AppRoutes.Course_Detail_Page,
+                                  arguments: {
+                                    "courseId": course.courseId,
+                                    "title": course.title,
+                                    "price": course.price,
+                                    "desc": course.description,
+                                    "thumbnailUrl": course.thumbnailUrl
+                                  },
+                                );
+                              },
+                            );
+                          });
+                        },
+                      ),
                     ),
                   ),
                   Container(
                     margin: EdgeInsets.only(left: 7.w, right: 7.w),
-                    //  padding: EdgeInsets.only(left: 5.w),
                     height: 30.h,
                     width: 30.w,
                     decoration: BoxDecoration(
-                        color: HexColor('3572EF'),
-                        borderRadius: BorderRadius.circular(4.w)),
+                      color: HexColor('3572EF'),
+                      borderRadius: BorderRadius.circular(4.w),
+                    ),
                     child: const Icon(
                       Icons.shopping_cart_outlined,
                     ),
-                  )
+                  ),
                 ],
               ),
             ),
-            SliverToBoxAdapter(child: SizedBox(height: 15.h)),
+
+            SliverToBoxAdapter(child: SizedBox(height: 45.h)),
             // --   check  -- for bought courses ------
             _boughtCourse
                 ? SliverToBoxAdapter(child: slidersView(context, state))
