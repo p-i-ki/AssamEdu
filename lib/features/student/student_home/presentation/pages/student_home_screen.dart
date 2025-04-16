@@ -2,10 +2,7 @@ import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
 import 'package:assam_edu/core/entities/course.dart';
 import 'package:assam_edu/features/student/student_home/presentation/bloc/bloc/student_home_screen_bloc.dart';
-import 'package:assam_edu/features/student/student_home/presentation/widgets/course_category_tabs.dart';
-import 'package:assam_edu/features/student/student_home/presentation/widgets/course_sections.dart';
-import 'package:assam_edu/features/student/student_home/presentation/widgets/course_slider.dart';
-import 'package:assam_edu/features/student/student_home/presentation/widgets/user_drawer.dart';
+import '../widgets/widgets.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -14,7 +11,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 import '../../../../../core/app_constants/app_constants.dart';
-import '../../../../../core/routes/names.dart';
+import '../../../../../core/routes/routes.dart';
 
 // We need separete bloc for other pages ,, so that we can preserve the state of each page..
 
@@ -212,14 +209,18 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
 
                           // Display filtered course suggestions
                           return filteredCourses.map((course) {
-                            final imageUrl = course.thumbnailUrl!
-                                    .startsWith('http')
-                                ? course.thumbnailUrl!
-                                : "${AppConstants.SERVER_API_URL}/${course.thumbnailUrl}";
+                            final imageUrl =
+                                course.thumbnailUrl!.startsWith('http')
+                                    ? course.thumbnailUrl!.replaceFirst(
+                                        RegExp(r'^(?:http|https)://[^/]+'), '')
+                                    : '/${course.thumbnailUrl!}';
+
+                            final fullImageUrl =
+                                "${AppConstants.SERVER_API_URL}$imageUrl";
                             //  print("------ $imageUrl ------");
                             return ListTile(
                               leading: Image.network(
-                                imageUrl,
+                                fullImageUrl,
                                 fit: BoxFit.cover,
                                 width: 40,
                                 height: 40,

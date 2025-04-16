@@ -128,9 +128,6 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                     child: SearchAnchor(builder:
                         (BuildContext context, SearchController controller) {
                       return SearchBar(
-                        //  overlayColor: WidgetStatePropertyAll(Colors.red),
-                        // backgroundColor:
-                        //     const WidgetStatePropertyAll(Colors.grey),
                         controller: controller,
                         hintText: "search",
                         side: const WidgetStatePropertyAll(

@@ -1,12 +1,12 @@
 import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/config/env_file_config.dart';
-import 'package:assam_edu/core/routes/pages.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'core/routes/routes.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
