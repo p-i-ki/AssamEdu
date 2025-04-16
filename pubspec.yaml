@@ -48,6 +48,7 @@ dependencies:
   video_player: ^2.9.2
   mime: ^2.0.0
   http_parser: ^4.1.2
+  flutter_dotenv: ^5.2.1
 
 dev_dependencies:
   flutter_test:
@@ -74,7 +75,7 @@ flutter:
   assets:
     - assets/images/
     - assets/videos/output.mp4
-
+    - .env
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 

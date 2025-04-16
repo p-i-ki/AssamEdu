@@ -1,7 +1,10 @@
 // ignore_for_file: constant_identifier_names
 
+import 'package:flutter_dotenv/flutter_dotenv.dart';
+
 class AppConstants {
-  static const String SERVER_API_URL = 'http://10.3.0.253:4000';
+  // ignore: non_constant_identifier_names
+  static String SERVER_API_URL = '${dotenv.env['SERVER_API_URL_NEW']}';
   static const String STORAGE_DEVICE_OPEN_FIRST_TIME = 'device_first_open';
   static const String STORAGE_USER_TOKEN_KEY = 'x-auth-token';
   static const String STORAGE_USER_PROFILE_KEY = 'user-profile';

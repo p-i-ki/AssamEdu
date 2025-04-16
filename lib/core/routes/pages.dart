@@ -10,6 +10,7 @@ import 'package:assam_edu/features/educator/course_create/presentation/bloc/crea
 import 'package:assam_edu/features/educator/course_create/presentation/pages/course_create_page.dart';
 import 'package:assam_edu/features/educator/course_detail/presentation/bloc/educator_course_detail_screen_bloc.dart';
 import 'package:assam_edu/features/educator/course_detail/presentation/pages/educator_course_detail_sceen.dart';
+import 'package:assam_edu/features/educator/profile/presentation/pages/edu_profile_page.dart';
 import 'package:assam_edu/features/student/course_section/presentation/bloc/course_section_bloc.dart';
 import 'package:assam_edu/features/student/presentation/pages/chapters_detail_screen.dart';
 import 'package:assam_edu/features/student/course_detail/presentation/pages/course_detail_screen.dart';
@@ -23,6 +24,7 @@ import 'package:assam_edu/features/start/presentation/pages/educator_screen.dart
 import 'package:assam_edu/features/start/presentation/pages/get_started_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/splash_screen.dart';
 import 'package:assam_edu/features/start/presentation/pages/student_screen.dart';
+import 'package:assam_edu/features/student/student_profile/presentation/pages/profile_edit_page.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -111,6 +113,10 @@ class AppPages {
         bloc: BlocProvider(create: (_) => getIt<CourseSectionBloc>()),
       ),
       PageEntity(
+        route: AppRoutes.STU_PROFILE_PAGE,
+        page: const ProfileEditpage(),
+      ),
+      PageEntity(
         route: AppRoutes.Create_course,
         page: const CourseCreatePage(),
         bloc: BlocProvider(create: (_) => getIt<CreateCourseBloc>()),
@@ -125,7 +131,11 @@ class AppPages {
         page: const EducatorCourseDetailSceen(),
         bloc: BlocProvider(
             create: (_) => getIt<EducatorCourseDetailScreenBloc>()),
-      )
+      ),
+      PageEntity(
+        route: AppRoutes.EDU_PROFILE_PAGE,
+        page: const EduProfilePage(),
+      ),
     ];
   }
 

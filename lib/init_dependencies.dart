@@ -51,6 +51,7 @@ class Global {
     // Initialize and register StorageServices with Get It
     final storageServices = await StorageServices().init();
     getIt.registerSingleton<StorageServices>(storageServices);
+
     // Register Dio with base options
     getIt.registerSingleton<Dio>(Dio(BaseOptions(
       baseUrl: AppConstants.SERVER_API_URL,

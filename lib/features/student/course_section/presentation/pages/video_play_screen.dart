@@ -340,8 +340,8 @@ class _VideoPlaySectionState extends State<VideoPlaySection> {
                       "Retry",
                       style: TextStyle(color: Colors.black),
                     ))
-                : Container(
-                    child: const CircularProgressIndicator(),
+                : const SizedBox(
+                    child: CircularProgressIndicator(),
                   );
       },
     );
@@ -363,7 +363,7 @@ class _VideoPlaySectionState extends State<VideoPlaySection> {
             final Uri parsedVideoUrl = Uri.parse(firstUrl);
             final String videoPath = parsedVideoUrl.path;
 
-            const String baseUrl = AppConstants.SERVER_API_URL;
+            String baseUrl = AppConstants.SERVER_API_URL;
 
             // Correct way to combine base URL and path:
             final Uri finalUri = Uri.parse(baseUrl).resolve(videoPath);

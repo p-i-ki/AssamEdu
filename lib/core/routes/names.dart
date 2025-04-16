@@ -40,6 +40,9 @@ class AppRoutes {
   //play course
   static const String Course_video_play = "/course-video-play";
 
+  // Student profile page
+  static const String STU_PROFILE_PAGE = "/student-profile";
+
   //Educator home page
   static const String EDU_HM_PAGE = "/educator-home";
 
@@ -51,4 +54,7 @@ class AppRoutes {
 
   // Educator course detail-screen
   static const String EDU_COURSE_DETAIL = "/edu-course-detail";
+
+  // Educator profile page
+  static const String EDU_PROFILE_PAGE = "/educator-profile";
 }

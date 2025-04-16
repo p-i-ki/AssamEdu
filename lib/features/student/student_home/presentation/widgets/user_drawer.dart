@@ -9,49 +9,45 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
 class UserDrawer extends StatelessWidget {
-  const UserDrawer({super.key});
+  const UserDrawer({super.key, this.userType = 'student'});
+
+  final String userType;
 
   @override
   Widget build(BuildContext context) {
     return Drawer(
       child: ListView(
-        //  padding: EdgeInsets.only(top: 40),
         padding: EdgeInsets.zero,
         children: [
           Container(
-            //margin: EdgeInsets.only(top: 40),
             height: 130.h,
             padding: EdgeInsets.only(top: 20.h),
             decoration: BoxDecoration(color: HexColor('3572EF')),
-            child: const Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                UserProfilePhoto(image: 'assets/images/person.jpeg'),
-                Text("Rupam Jyoti Baishya."),
-                Text("rupamdon2003@gmail.com"),
+                InkWell(
+                    onTap: () {
+                      final routeName = userType == 'student'
+                          ? AppRoutes.STU_PROFILE_PAGE
+                          : AppRoutes.EDU_PROFILE_PAGE;
+                      Navigator.pushNamed(context, routeName);
+                    },
+                    child: const UserProfilePhoto(
+                        image: 'assets/images/person.jpeg')),
+                const Text("Rupam Jyoti Baishya."),
+                const Text("rupamdon2003@gmail.com"),
               ],
             ),
           ),
-          // UserAccountsDrawerHeader(
-          //   // margin: EdgeInsets.fromLTRB(30, 10, 10, 10),
-          //   accountName: const Text("Rupam Jyoti Baishya."),
-          //   accountEmail: const Text("rupamdon2003@gmail.com"),
-          //   currentAccountPicture: InkWell(
-          //       onTap: () {
-          //         Navigator.pushNamed(context, DemoPage.routeName);
-          //       },
-          //       child:
-          //           const UserProfilePhoto(image: 'assets/images/person.jpeg')),
-          //   decoration: BoxDecoration(
-          //     color: HexColor('3572EF'),
-          //   ),
-          // ),
           _createDrawerItem(
               icon: Icons.book,
               text: 'Your Courses',
               context: context,
-              route: AppRoutes.Course_purchased_page),
+              route: userType == 'student'
+                  ? AppRoutes.Course_purchased_page
+                  : AppRoutes.EDU_PROFILE_PAGE),
           _createDrawerItem(
               icon: Icons.library_books,
               text: 'Library',

@@ -593,7 +593,7 @@ class _EducatorCourseDetailSceenState extends State<EducatorCourseDetailSceen> {
               final firstUrl = urlList[0] as String;
               final Uri parsedVideoUrl = Uri.parse(firstUrl);
               final String videoPath = parsedVideoUrl.path;
-              const String baseUrl = AppConstants.SERVER_API_URL;
+              String baseUrl = AppConstants.SERVER_API_URL;
               final Uri finalUri = Uri.parse(baseUrl).resolve(videoPath);
               final String finalUrl = finalUri.toString();
               final uri = Uri.parse(finalUrl);

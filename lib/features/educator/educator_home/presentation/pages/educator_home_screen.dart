@@ -113,7 +113,9 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
               ),
             ),
           ),
-          endDrawer: const UserDrawer(),
+          endDrawer: const UserDrawer(
+            userType: 'educator',
+          ),
           body: SingleChildScrollView(
             child: Padding(
               padding: const EdgeInsets.all(8.0),

@@ -13,8 +13,8 @@ class UserProfilePhoto extends StatelessWidget {
       width: 40.h,
       decoration: BoxDecoration(
         color: HexColor('E9EBFD'),
-        border:
-            Border.all(width: 5, color: HexColor('66300E').withOpacity(0.6)),
+        border: Border.all(
+            width: 5, color: HexColor('66300E').withValues(alpha: 0.6)),
         borderRadius: BorderRadius.circular(70),
       ),
       child: ClipOval(
