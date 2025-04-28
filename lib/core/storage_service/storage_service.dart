@@ -27,6 +27,10 @@ class StorageServices {
     return _prefs.getString(AppConstants.USER_TYPE) ?? '';
   }
 
+  String getSignInType() {
+    return _prefs.getString(AppConstants.SIGN_IN_TYPE) ?? '';
+  }
+
   //user after logged in..
   Future<bool> setString(String key, String value) async {
     return await _prefs.setString(key, value);

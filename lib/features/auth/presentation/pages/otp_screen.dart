@@ -1,17 +1,16 @@
-import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/common/widgets/assam_edu_backgroung.dart';
 import 'package:assam_edu/core/common/widgets/white_box.dart';
-import 'package:assam_edu/core/routes/names.dart';
-import 'package:assam_edu/core/storage_service/storage_service.dart';
+import 'package:assam_edu/core/utlis/save_token.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
-import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 import 'package:pinput/pinput.dart';
+
+import '../../../../core/routes/names.dart';
 
 class OtpScreen extends StatefulWidget {
   final String email;
@@ -32,20 +31,27 @@ class _OtpScreenState extends State<OtpScreen> {
   }
 
   void _setUserLoggedIn(String token) async {
-    final storageServices = getIt<StorageServices>();
-    // Here we need to Save the token in the sharedprefs..
-    final save = await storageServices.setString(
-        AppConstants.STORAGE_USER_TOKEN_KEY,
-        token); // List<String> myStrings = ['apple', 'banana', 'cherry'];  String result2 = myStrings.join('');   print(result2); // Output: applebananacherry
-
-    // Check if the widget is still mounted before accessing context
-    if (!mounted) return;
-
-    if (save == true) {
+    final res = await StoreTokenAndNavigate.setUserLoggedIn(token: token);
+    if (res == true && mounted) {
       Navigator.pushNamedAndRemoveUntil(
           context, AppRoutes.HOME_PAGE, (route) => false);
     }
   }
+  // void _setUserLoggedIn(String token) async {
+  //   final storageServices = getIt<StorageServices>();
+  //   // Here we need to Save the token in the sharedprefs..
+  //   final save = await storageServices.setString(
+  //       AppConstants.STORAGE_USER_TOKEN_KEY,
+  //       token); // List<String> myStrings = ['apple', 'banana', 'cherry'];  String result2 = myStrings.join('');   print(result2); // Output: applebananacherry
+
+  //   // Check if the widget is still mounted before accessing context
+  //   if (!mounted) return;
+
+  //   if (save == true) {
+  //     Navigator.pushNamedAndRemoveUntil(
+  //         context, AppRoutes.HOME_PAGE, (route) => false);
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -158,13 +164,13 @@ class _OtpScreenState extends State<OtpScreen> {
                         ),
                       ),
                       //  SizedBox(height: 1.h),
-                      Container(
-                        margin: EdgeInsets.only(left: 170.w),
-                        height: 39.5.h,
-                        width: 49.w,
-                        color: HexColor('C6CDEA'),
-                        alignment: Alignment.topRight,
-                      ),
+                      // Container(
+                      //   margin: EdgeInsets.only(left: 170.w),
+                      //   height: 5.5.h,
+                      //   width: 49.w,
+                      //   color: HexColor('C6CDEA'),
+                      //   alignment: Alignment.topRight,
+                      // ),
                     ],
                   ),
                 ),

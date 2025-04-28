@@ -50,22 +50,10 @@ class _SignInScreenState extends State<SignInScreen> {
             if (state is AuthSignInSuccess) {
               EasyLoading.dismiss();
               showSnackBar(context, state.signInData.msg!);
+              print("----- Navigating to OTP screen -----");
               Navigator.pushNamed(context, AppRoutes.OTP,
                   arguments: {"email": emailController.text.trim()});
-              // otp will be sent from the backend directly as soon as email and passwords are varified..
-              // context
-              //     .read<AuthBloc>()
-              //     .add(AuthSendOtpEvent(email: state.signInData.user!.email!));
             }
-            // if (state is AuthSendOtpSuccess) {
-            //   EasyLoading.dismiss();
-            //   Navigator.pushNamed(context, AppRoutes.OTP,
-            //       arguments: {'email': state.otpData.user!.email});
-            // }
-            // if (state is AuthSendOtpError) {
-            //   EasyLoading.dismiss();
-            //   showSnackBar(context, state.error);
-            // }
           },
           builder: (context, state) {
             if (state is AuthLoading) {

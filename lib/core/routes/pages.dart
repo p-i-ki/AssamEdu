@@ -83,7 +83,6 @@ class AppPages {
       PageEntity(
         route: AppRoutes.HOME_PAGE,
         page: const HomeScreen(),
-        //bloc: BlocProvider(create: (_) => getIt<HomePageBloc>()),
       ),
       PageEntity(
         route: AppRoutes.STU_HM_PAGE,
@@ -171,13 +170,11 @@ class AppPages {
                   const HomeScreen(), // Replace with actual home page
             );
           }
-          print(result.first.page);
           return MaterialPageRoute(
             builder: (_) => result.first.page,
             settings: settings,
           );
         } catch (e) {
-          print('Error accessing StorageServices: $e'); // Debugging line
           return MaterialPageRoute(
             builder: (_) => const Scaffold(
               body: Center(
@@ -195,7 +192,6 @@ class AppPages {
         }
       }
     }
-    print('Invalid route name ${settings.name}'); // Debugging line
     return MaterialPageRoute(
       builder: (_) => const Scaffold(
         body: Center(

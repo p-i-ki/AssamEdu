@@ -1,6 +1,7 @@
 import 'package:assam_edu/core/common/widgets/assam_edu_backgroung.dart';
 import 'package:assam_edu/core/common/widgets/white_box.dart';
 import 'package:assam_edu/core/routes/names.dart';
+import 'package:assam_edu/core/utlis/http_util.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/auth/presentation/widgets/google_auth.dart';
@@ -10,6 +11,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
+
+import '../../../../core/utlis/google_api.dart';
+import '../../../../init_dependencies.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({super.key});
@@ -113,7 +117,21 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               reusableText('OR'),
                               SizedBox(height: 10.h),
                               googleAuth(
-                                  onTap: () {}, text: 'SIGNUP WITH GOOGLE'),
+                                  onTap: () async {
+                                    final httpUtil = getIt<HttpUtil>();
+                                    final res =
+                                        await GoogleApi.signIn(httpUtil);
+                                    print('------ Response in SingUP: $res');
+                                    if (res) {
+                                      if (mounted) {
+                                        Navigator.pushNamedAndRemoveUntil(
+                                            context,
+                                            AppRoutes.HOME_PAGE,
+                                            (route) => false);
+                                      }
+                                    }
+                                  },
+                                  text: 'SIGNUP WITH GOOGLE'),
                               Container(
                                 height: 46.h,
                                 width: 45.w,

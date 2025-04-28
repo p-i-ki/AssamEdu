@@ -9,6 +9,7 @@ class AppConstants {
   static const String STORAGE_USER_TOKEN_KEY = 'x-auth-token';
   static const String STORAGE_USER_PROFILE_KEY = 'user-profile';
   static const String USER_TYPE = 'user_type';
+  static const String SIGN_IN_TYPE = 'sign_in_type';
   static const double dHeight = 915;
   static const double dWidth = 412;
   static const double dRadius = 12;

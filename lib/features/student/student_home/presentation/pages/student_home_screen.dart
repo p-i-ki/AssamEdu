@@ -27,7 +27,7 @@ class _StudentHomeScreenState extends State<StudentHomeScreen>
   late final TabController tabController =
       TabController(length: 5, vsync: this);
   List<CourseItem> courses = [];
-  bool _boughtCourse = true;
+  final bool _boughtCourse = true;
 
   @override
   void initState() {

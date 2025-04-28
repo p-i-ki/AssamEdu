@@ -44,6 +44,15 @@ android {
         versionName = flutterVersionName
     }
 
+    signingConfigs{
+        debug{
+            keyAlias 'edu-upload'
+            keyPassword 'android'
+            storeFile file('edu-keystore.jks')
+            storePassword 'android'
+        }
+    }
+
     buildTypes {
         release {
             // TODO: Add your own signing config for the release build.

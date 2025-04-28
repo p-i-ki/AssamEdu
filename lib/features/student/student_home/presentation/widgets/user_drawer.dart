@@ -8,6 +8,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../../core/config/google_sign_in_config.dart';
+
 class UserDrawer extends StatelessWidget {
   const UserDrawer({super.key, this.userType = 'student'});
 
@@ -128,7 +130,10 @@ Widget _createDrawerItem(
 
 void _logout(BuildContext context) async {
   final storageService = getIt<StorageServices>();
-
+  final signInType = storageService.getSignInType();
+  if (signInType == 'google_sign_in') {
+    await GoogleSigninApi.logOut();
+  }
   bool deviceFirstOpen = await storageService
       .deleteSharedPrefValue(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME);
   bool userToken = await storageService
