@@ -31,6 +31,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get_it/get_it.dart';
 
 import '../../features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
+import '../../features/educator/profile/presentation/bloc/eudcator_profile_bloc.dart';
 
 class PageEntity {
   String route;
@@ -134,6 +135,7 @@ class AppPages {
       PageEntity(
         route: AppRoutes.EDU_PROFILE_PAGE,
         page: const EduProfilePage(),
+        bloc: BlocProvider(create: (_) => getIt<EudcatorProfileBloc>()),
       ),
     ];
   }

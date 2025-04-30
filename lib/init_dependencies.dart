@@ -28,6 +28,11 @@ import 'package:assam_edu/features/educator/educator_home/data/repository/get_in
 import 'package:assam_edu/features/educator/educator_home/domain/repository/get_instructor_course_repository.dart';
 import 'package:assam_edu/features/educator/educator_home/domain/use_cases/get_instructor_courses.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
+import 'package:assam_edu/features/educator/profile/data/data_source/educator_profile_remote_data_source.dart';
+import 'package:assam_edu/features/educator/profile/data/repository/create_educator_profile_repo_impl.dart';
+import 'package:assam_edu/features/educator/profile/domain/repositories/create_educator_profile_repository.dart';
+import 'package:assam_edu/features/educator/profile/domain/use_cases/create_educator_profile.dart';
+import 'package:assam_edu/features/educator/profile/presentation/bloc/eudcator_profile_bloc.dart';
 import 'package:assam_edu/features/student/course_section/data/data_resources/course_section_remote_data_sources.dart';
 import 'package:assam_edu/features/student/course_section/data/repository/course_section_repository_impl.dart';
 import 'package:assam_edu/features/student/course_section/domain/repository/course_section_repository.dart';
@@ -70,6 +75,7 @@ class Global {
     _initAddSectionName();
     _initEducatorHome();
     _initEducatorGetSections();
+    _initEducatorProfile();
   }
 }
 
@@ -171,4 +177,19 @@ void _initEducatorGetSections() {
     ..registerLazySingleton(() => EducatorCourseDetailScreenBloc(
           getSections: getIt<GetSections>(),
         ));
+}
+
+void _initEducatorProfile() {
+  getIt
+    ..registerFactory<EducatorProfileRemoteDataSource>(
+        () => EducatorProfileRemoteDataSourceImpl(httpUtil: getIt<HttpUtil>()))
+    ..registerFactory<CreateEducatorProfileRepository>(() =>
+        CreateEducatorProfileRepoImpl(
+            educatorProfileRemoteDataSource:
+                getIt<EducatorProfileRemoteDataSource>()))
+    ..registerFactory(() => CreateEducatorProfile(
+        createEducatorProfileRepository:
+            getIt<CreateEducatorProfileRepository>()))
+    ..registerLazySingleton(() => EudcatorProfileBloc(
+        createEducatorPrifle: getIt<CreateEducatorProfile>()));
 }

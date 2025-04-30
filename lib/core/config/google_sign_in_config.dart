@@ -1,9 +1,9 @@
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class GoogleSigninApi {
   static final _googleSignIn = GoogleSignIn(
-      serverClientId:
-          '661902661573-0fnua6e0f5ik8va4678lge99eod0h7s3.apps.googleusercontent.com',
+      serverClientId: '${dotenv.env['GOOGLE_WEB_CLIENT_ID']}',
       scopes: ['email']);
 
   static Future<GoogleSignInAccount?> logIn() => _googleSignIn.signIn();

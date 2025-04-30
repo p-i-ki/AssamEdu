@@ -54,4 +54,12 @@ class StorageServices {
   Future<bool> deleteSharedPrefValue(String key) async {
     return await _prefs.remove(key);
   }
+
+  Future<bool> storeEduProfile(List<String> items) {
+    return _prefs.setStringList(AppConstants.EDUCATOR_PROFILE_INFO, items);
+  }
+
+  List<String> getEduProfile(String key) {
+    return _prefs.getStringList(key) ?? [];
+  }
 }

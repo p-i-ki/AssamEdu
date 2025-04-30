@@ -2,6 +2,7 @@ import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:dio/dio.dart';
+import 'package:flutter/material.dart';
 
 class HttpUtil {
   final Dio dio;
@@ -27,7 +28,8 @@ class HttpUtil {
         String token = sv.getUserToken();
         requestOptions.headers![AppConstants.STORAGE_USER_TOKEN_KEY] = token;
       }
-      print("------Post Method is Triggered: Path - $path, Data - $myData");
+      debugPrint(
+          "------Post Method is Triggered: Path - $path, Data - $myData");
 
       var response = await dio.post(
         path,
@@ -40,7 +42,7 @@ class HttpUtil {
           },
         ),
       );
-      print("Response From Dio ------> : ${response.data}");
+      debugPrint("Response From Dio ------> : ${response.data}");
       return response.data;
     } on DioException catch (e) {
       String err = _handleDioError(e);
@@ -49,7 +51,7 @@ class HttpUtil {
         'message': err,
       };
     } catch (e) {
-      print("Error during POST: $e");
+      debugPrint("Error during POST: $e");
       // If there's an unexpected error (not from the server response)
       return {
         'success': false,
@@ -79,7 +81,7 @@ class HttpUtil {
         requestOptions.headers![AppConstants.STORAGE_USER_TOKEN_KEY] = token;
       }
 
-      print(
+      debugPrint(
           "------Post Method is Triggered: Path - $path, Data - $data, header - ${requestOptions.headers}");
 
       final response = await dio.get(
@@ -88,7 +90,7 @@ class HttpUtil {
         options: requestOptions,
       );
 
-      print("Response from HTTPUtil ----> : ${response.data}");
+      debugPrint("Response from HTTPUtil ----> : ${response.data}");
 
       return response.data;
     } on DioException catch (e) {
@@ -98,7 +100,7 @@ class HttpUtil {
         'message': err,
       };
     } catch (e) {
-      print("Error during POST: $e");
+      debugPrint("Error during POST: $e");
       // If there's an unexpected error (not from the server response)
       return {
         'success': false,

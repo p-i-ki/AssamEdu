@@ -11,6 +11,10 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
+import '../../../../core/utlis/google_api.dart';
+import '../../../../core/utlis/http_util.dart';
+import '../../../../init_dependencies.dart';
+
 class SignInScreen extends StatefulWidget {
   const SignInScreen({super.key});
 
@@ -115,7 +119,25 @@ class _SignInScreenState extends State<SignInScreen> {
                               SizedBox(height: 6.h),
                               Center(
                                   child: googleAuth(
-                                      onTap: () {}, text: 'LOGIN WITH GOOGLE')),
+                                      onTap: () async {
+                                        final currentContext =
+                                            context; // Capture the context here
+                                        final httpUtil = getIt<HttpUtil>();
+                                        final res =
+                                            await GoogleApi.signIn(httpUtil);
+                                        debugPrint(
+                                            '------ Response in SingUP: $res');
+                                        if (res) {
+                                          if (mounted &&
+                                              currentContext.mounted) {
+                                            Navigator.pushNamedAndRemoveUntil(
+                                                context,
+                                                AppRoutes.HOME_PAGE,
+                                                (route) => false);
+                                          }
+                                        }
+                                      },
+                                      text: 'LOGIN WITH GOOGLE')),
                               Container(
                                 height: 45.h,
                                 width: 40.w,

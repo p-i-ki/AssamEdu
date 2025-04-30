@@ -1,12 +1,15 @@
+import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/common/widgets/app_style.dart';
 import 'package:assam_edu/core/common/widgets/resuable_text.dart';
 import 'package:assam_edu/core/routes/names.dart';
+import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
 import 'package:assam_edu/features/educator/educator_home/domain/entity/instructor_course_entity.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/widgets/custom_tab_bar.dart';
 import 'package:assam_edu/features/student/student_home/presentation/widgets/user_drawer.dart';
+import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -28,9 +31,31 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
 
   List<Course> courses = [];
 
+  String? profilePhoto;
+
+  void _getProfilePic() {
+    final sv = getIt<StorageServices>();
+    final List<String?> arr =
+        sv.getEduProfile(AppConstants.EDUCATOR_PROFILE_INFO);
+
+    if (arr.isNotEmpty && arr[0]!.isNotEmpty) {
+      final image = arr[0];
+      final imageUrl = image!.startsWith('http')
+          ? image.replaceFirst(RegExp(r'^(?:http|https)://[^/]+'), '')
+          : '/$image';
+
+      setState(() {
+        profilePhoto = "${AppConstants.SERVER_API_URL}$imageUrl";
+      });
+      debugPrint('--------- FUll Image URL -------: $profilePhoto');
+      setState(() {});
+    }
+  }
+
   @override
   void initState() {
     super.initState();
+    _getProfilePic();
     _fetchAllCourses();
   }
 
@@ -104,8 +129,13 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                       child: Container(
                         margin: const EdgeInsets.only(right: 10),
                         // decoration: const BoxDecoration(color: Colors.amber),
-                        child: const UserProfilePhoto(
-                            image: 'assets/images/person.jpeg'),
+                        child: profilePhoto != null && profilePhoto!.isNotEmpty
+                            ? UserProfilePhoto(
+                                image: profilePhoto!,
+                                type: "network",
+                              )
+                            : const UserProfilePhoto(
+                                image: 'assets/images/person.jpeg'),
                       ),
                     ),
                   )

@@ -7,7 +7,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hexcolor/hexcolor.dart';
 import 'package:pinput/pinput.dart';
 
 import '../../../../core/routes/names.dart';
@@ -37,21 +36,6 @@ class _OtpScreenState extends State<OtpScreen> {
           context, AppRoutes.HOME_PAGE, (route) => false);
     }
   }
-  // void _setUserLoggedIn(String token) async {
-  //   final storageServices = getIt<StorageServices>();
-  //   // Here we need to Save the token in the sharedprefs..
-  //   final save = await storageServices.setString(
-  //       AppConstants.STORAGE_USER_TOKEN_KEY,
-  //       token); // List<String> myStrings = ['apple', 'banana', 'cherry'];  String result2 = myStrings.join('');   print(result2); // Output: applebananacherry
-
-  //   // Check if the widget is still mounted before accessing context
-  //   if (!mounted) return;
-
-  //   if (save == true) {
-  //     Navigator.pushNamedAndRemoveUntil(
-  //         context, AppRoutes.HOME_PAGE, (route) => false);
-  //   }
-  // }
 
   @override
   Widget build(BuildContext context) {
@@ -123,14 +107,6 @@ class _OtpScreenState extends State<OtpScreen> {
                               ],
                             ),
                           ),
-                          // TextButton(
-                          //   onPressed: () {},
-                          //   child: const Text(
-                          //     'NOT YOURS?',
-                          //     style:
-                          //         TextStyle(fontSize: 7, color: Colors.white),
-                          //   ),
-                          // ),
                         ],
                       ),
                       SizedBox(height: 12.h),
@@ -144,14 +120,6 @@ class _OtpScreenState extends State<OtpScreen> {
                       ),
                       SizedBox(height: 4.h),
                       _pinPutField(),
-                      // Row(
-                      //   mainAxisAlignment:
-                      //       MainAxisAlignment.spaceEvenly,
-                      //   children: List.generate(
-                      //     6,
-                      //     (index) => _buildOTPDigitField(index),
-                      //   ),
-                      // ),
                       SizedBox(height: 18.h),
                       TextButton(
                         onPressed: () {},
@@ -192,36 +160,4 @@ class _OtpScreenState extends State<OtpScreen> {
       },
     );
   }
-
-  // Widget _buildOTPDigitField(int index) {
-  //   return Container(
-  //     height: 34.h,
-  //     width: 33.w,
-  //     decoration: BoxDecoration(
-  //       borderRadius: BorderRadius.circular(8.w),
-  //       color: Colors.white,
-  //     ),
-  //     child: TextFormField(
-  //       focusNode: _focusNodes[index],
-  //       textAlign: TextAlign.center,
-  //       keyboardType: TextInputType.number,
-  //       maxLength: 1,
-  //       style: const TextStyle(color: Colors.black),
-  //       decoration: InputDecoration(
-  //         contentPadding: EdgeInsets.only(top: 1.h, bottom: 1.h),
-  //         counterText: '',
-  //         border: const OutlineInputBorder(),
-  //         focusedBorder: const OutlineInputBorder(
-  //           borderSide: BorderSide(color: Colors.blue),
-  //         ),
-  //       ),
-  //       onChanged: (value) {
-  //         _handleOtpChange(index, value);
-  //         // context
-  //         //     .read<AuthBloc>()
-  //         //     .add(OTPDigitChanged(index: index, value: value));
-  //       },
-  //     ),
-  //   );
-  // }
 }
