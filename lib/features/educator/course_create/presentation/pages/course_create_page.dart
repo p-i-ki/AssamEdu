@@ -2,10 +2,12 @@ import 'dart:io';
 
 import 'package:assam_edu/core/common/widgets/app_style.dart';
 import 'package:assam_edu/core/common/widgets/custom_button.dart';
+import 'package:assam_edu/core/config/db_config.dart';
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/educator/course_create/domain/entities/create_course.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
+import 'package:assam_edu/init_dependencies.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -72,6 +74,24 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
     }
   }
 
+  Future<bool> _addToDB() async {
+    final db = getIt<DBHelper>();
+    final res = await db.insertCourse(
+      title: _courseTitleController.text.trim(),
+      desc: _descriptionController.text.trim(),
+      price: _priceController.text.trim(),
+      imageFile: File(_thumbnailPath!),
+    );
+    return res;
+  }
+
+  void _clearControllers() {
+    _courseTitleController.clear();
+    _descriptionController.clear();
+    _priceController.clear();
+    _thumbnailPath = null;
+  }
+
   @override
   void dispose() {
     _courseTitleController.dispose();
@@ -87,11 +107,13 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
         if (state is CreateCourseError) {
           EasyLoading.dismiss();
           print('---- Error During Course Upload : ${state.error}');
-          showSnackBar(context, "Course Creation Failed! Reason:$state.error");
+          showSnackBar(
+              context, "Course Creation Failed! Reason:${state.error}");
         }
         if (state is CreateCourseSuccess) {
           EasyLoading.dismiss();
           showSnackBar(context, "Course Created Succefully!");
+          _clearControllers();
           Navigator.pushNamed(context, AppRoutes.ADD_SECTION,
               arguments: {"courseId": state.response.courseId});
         }
@@ -340,10 +362,17 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
                                   color: Colors.white,
                                   fontWeight: FontWeight.w700),
                               borderSide: const BorderSide(),
-                              customFun: () {
-                                // setState(() {
-                                //   //  _addMoreDetails = true;
-                                // });
+                              customFun: () async {
+                                final currentContext = context;
+                                final res = await _addToDB();
+                                if (currentContext.mounted) {
+                                  if (res) {
+                                    showSnackBar(
+                                        context, "Course is added to draft!");
+                                  }
+                                  _clearControllers();
+                                  Navigator.pop(context);
+                                }
                               })),
                       const SizedBox(width: 5),
                       Expanded(

@@ -44,13 +44,4 @@ class CstmGridView extends StatelessWidget {
       },
     );
   }
-
-  // String date(String createdAt) {
-
-  //   DateTime dateTime = DateTime.parse(createdAt);
-  //   String formattedDate = d
-  //       ; // Example: "February 15, 2025"
-  //   Text("Created At: $formattedDate");
-  //   return formattedDate;
-  // }
 }

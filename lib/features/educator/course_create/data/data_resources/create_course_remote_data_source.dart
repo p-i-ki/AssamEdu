@@ -1,5 +1,5 @@
 import 'package:assam_edu/core/error/exceptions.dart';
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/features/educator/course_create/data/model/create_course_model.dart';
 
 abstract interface class CreateCourseRemoteDataSource {

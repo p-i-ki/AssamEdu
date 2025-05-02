@@ -1,6 +1,6 @@
 import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/error/exceptions.dart';
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/core/model/course_model.dart';
 import 'package:dio/dio.dart';
 

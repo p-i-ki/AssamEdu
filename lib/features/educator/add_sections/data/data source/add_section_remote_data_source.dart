@@ -1,5 +1,5 @@
 import 'package:assam_edu/core/error/exceptions.dart';
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/features/educator/add_sections/data/model/add_section_model.dart';
 
 abstract interface class AddSectionRemoteDataSource {

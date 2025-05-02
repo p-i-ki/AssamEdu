@@ -1,6 +1,7 @@
 import 'package:assam_edu/core/app_constants/app_constants.dart';
+import 'package:assam_edu/core/config/db_config.dart';
 import 'package:assam_edu/core/storage_service/storage_service.dart';
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/features/auth/data/data_resources/auth_remote_data_source.dart';
 import 'package:assam_edu/features/auth/data/repository/auth_repository_impl.dart';
 import 'package:assam_edu/features/auth/domain/repository/auth_repository.dart';
@@ -53,6 +54,7 @@ final GetIt getIt = GetIt.instance;
 class Global {
   static Future<void> init() async {
     _initAuth();
+    _initDB();
     // Initialize and register StorageServices with Get It
     final storageServices = await StorageServices().init();
     getIt.registerSingleton<StorageServices>(storageServices);
@@ -97,6 +99,11 @@ void _initAuth() {
           userSignIn: getIt<UserSignIn>(),
           userVerifyOtp: getIt<UserVerifyOtp>(),
         ));
+}
+
+void _initDB() {
+  final db = DBHelper();
+  getIt.registerLazySingleton<DBHelper>(() => db);
 }
 
 void _initStudentHomePage() {

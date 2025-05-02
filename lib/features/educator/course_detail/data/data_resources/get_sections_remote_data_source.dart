@@ -1,4 +1,4 @@
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 
 import '../../../../../core/error/exceptions.dart';
 import '../../../../../core/model/course_model.dart';

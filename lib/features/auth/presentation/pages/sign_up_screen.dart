@@ -1,7 +1,7 @@
 import 'package:assam_edu/core/common/widgets/assam_edu_backgroung.dart';
 import 'package:assam_edu/core/common/widgets/white_box.dart';
 import 'package:assam_edu/core/routes/names.dart';
-import 'package:assam_edu/core/utlis/http_util.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/auth/presentation/bloc/bloc/auth_bloc.dart';
 import 'package:assam_edu/features/auth/presentation/widgets/google_auth.dart';
@@ -12,7 +12,7 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../../../core/utlis/google_api.dart';
+import '../../../../core/api/google_api.dart';
 import '../../../../init_dependencies.dart';
 
 class SignUpScreen extends StatefulWidget {

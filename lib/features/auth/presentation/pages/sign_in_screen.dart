@@ -11,8 +11,8 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hexcolor/hexcolor.dart';
 
-import '../../../../core/utlis/google_api.dart';
-import '../../../../core/utlis/http_util.dart';
+import '../../../../core/api/google_api.dart';
+import '../../../../core/api/http_util.dart';
 import '../../../../init_dependencies.dart';
 
 class SignInScreen extends StatefulWidget {

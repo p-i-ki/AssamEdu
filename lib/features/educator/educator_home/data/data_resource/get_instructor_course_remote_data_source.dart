@@ -1,6 +1,6 @@
 import 'package:assam_edu/features/educator/educator_home/data/model/instructor_course_model.dart';
 import '../../../../../core/error/exceptions.dart';
-import '../../../../../core/utlis/http_util.dart';
+import '../../../../../core/api/http_util.dart';
 
 abstract interface class GetInstructorCourseRemoteDataSource {
   Future<InstructorCourseResModel> getCourses();

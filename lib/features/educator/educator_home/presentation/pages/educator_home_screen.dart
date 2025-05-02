@@ -247,19 +247,6 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                   const SizedBox(
                     height: 10,
                   ),
-
-                  // CustomButton(
-                  //     text: "Add Section",
-                  //     backgroungColor: Colors.blue,
-                  //     textStyle: appStyle(
-                  //         size: 12,
-                  //         color: Colors.white,
-                  //         fontWeight: FontWeight.normal),
-                  //     borderSide: BorderSide.none,
-                  //     customFun: () {
-                  //       Navigator.pushNamed(context, AppRoutes.ADD_SECTION,
-                  //           arguments: {"courseId": 1});
-                  //     })
                   Padding(
                     padding: const EdgeInsets.only(left: 8),
                     child: ReusableText(
@@ -278,25 +265,33 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                   ),
                   // ADD tab bar section ->
                   courses.isNotEmpty
-                      ? CstmTabSections(
-                          tabController: _tabController,
-                          courses: courses,
+                      ? SizedBox(
+                          child: CstmTabSections(
+                            tabController: _tabController,
+                            courses: courses, // add courses from sqflite also..
+                          ),
                         )
-                      : Container(
-                          padding: const EdgeInsets.only(top: 200),
-                          color: Colors.transparent,
-                          child: Center(
-                              child: IconButton(
-                            icon: const Icon(
-                              Icons.refresh,
-                              size: 35,
-                              color: Colors.blueGrey,
-                            ),
-                            onPressed: () {
-                              _fetchAllCourses();
-                            },
-                          )),
-                        ),
+                      : SizedBox(
+                          height: 200,
+                          child: CstmTabSections(
+                            tabController: _tabController,
+                          ),
+                        )
+                  // : Container(
+                  //     padding: const EdgeInsets.only(top: 200),
+                  //     color: Colors.transparent,
+                  //     child: Center(
+                  //         child: IconButton(
+                  //       icon: const Icon(
+                  //         Icons.refresh,
+                  //         size: 35,
+                  //         color: Colors.blueGrey,
+                  //       ),
+                  //       onPressed: () {
+                  //         _fetchAllCourses();
+                  //       },
+                  //     )),
+                  //   ),
                 ],
               ),
             ),

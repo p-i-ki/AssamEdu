@@ -1,6 +1,8 @@
+import 'package:assam_edu/core/api/logout_api.dart';
 import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:assam_edu/core/storage_service/storage_service.dart';
+import 'package:assam_edu/core/api/http_util.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
 import 'package:assam_edu/features/student/student_home/presentation/widgets/demo_page.dart';
 import 'package:assam_edu/init_dependencies.dart';
@@ -109,12 +111,13 @@ class UserDrawer extends StatelessWidget {
   }
 }
 
-Widget _createDrawerItem(
-    {required IconData icon,
-    required String text,
-    Color? color,
-    String? route,
-    required BuildContext context}) {
+Widget _createDrawerItem({
+  required IconData icon,
+  required String text,
+  Color? color,
+  String? route,
+  required BuildContext context,
+}) {
   return ListTile(
     leading: Icon(icon, color: color ?? Colors.black),
     title: Text(text),
@@ -129,11 +132,14 @@ Widget _createDrawerItem(
 }
 
 void _logout(BuildContext context) async {
+  final httpUtil = getIt<HttpUtil>();
   final storageService = getIt<StorageServices>();
   final signInType = storageService.getSignInType();
   if (signInType == 'google_sign_in') {
     await GoogleSigninApi.logOut();
   }
+  await LogoutApi.logout(httpUtil: httpUtil);
+  // clear storage:
   bool deviceFirstOpen = await storageService
       .deleteSharedPrefValue(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME);
   bool userToken = await storageService

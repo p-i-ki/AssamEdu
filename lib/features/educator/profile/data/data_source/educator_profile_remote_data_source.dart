@@ -2,7 +2,7 @@ import 'package:assam_edu/features/educator/profile/data/models/educator_profile
 import 'package:flutter/material.dart';
 
 import '../../../../../core/error/exceptions.dart';
-import '../../../../../core/utlis/http_util.dart';
+import '../../../../../core/api/http_util.dart';
 
 abstract interface class EducatorProfileRemoteDataSource {
   Future<EducatorProfileCreateResModel> createProfile(
