@@ -3,6 +3,7 @@ import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/core/routes/names.dart';
 import 'package:assam_edu/core/storage_service/storage_service.dart';
 import 'package:assam_edu/core/api/http_util.dart';
+import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/core/utlis/user_profile_photo.dart';
 import 'package:assam_edu/features/student/student_home/presentation/widgets/demo_page.dart';
 import 'package:assam_edu/init_dependencies.dart';
@@ -132,22 +133,34 @@ Widget _createDrawerItem({
 }
 
 void _logout(BuildContext context) async {
-  final httpUtil = getIt<HttpUtil>();
-  final storageService = getIt<StorageServices>();
-  final signInType = storageService.getSignInType();
-  if (signInType == 'google_sign_in') {
-    await GoogleSigninApi.logOut();
-  }
-  await LogoutApi.logout(httpUtil: httpUtil);
-  // clear storage:
-  bool deviceFirstOpen = await storageService
-      .deleteSharedPrefValue(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME);
-  bool userToken = await storageService
-      .deleteSharedPrefValue(AppConstants.STORAGE_USER_TOKEN_KEY);
-  bool userType = await storageService
-      .deleteSharedPrefValue(AppConstants.STORAGE_USER_PROFILE_KEY);
-  if (deviceFirstOpen && userToken && userType && context.mounted) {
-    Navigator.pushNamedAndRemoveUntil(
-        context, AppRoutes.GET_STARTED, (route) => false);
+  try {
+    final httpUtil = getIt<HttpUtil>();
+    final storageService = getIt<StorageServices>();
+    final signInType = storageService.getSignInType();
+    if (signInType == 'google_sign_in') {
+      await GoogleSigninApi.logOut();
+      await storageService.deleteSharedPrefValue(AppConstants.SIGN_IN_TYPE);
+    }
+    await LogoutApi.logout(httpUtil: httpUtil);
+    // clear storage:
+    bool deviceFirstOpen = await storageService
+        .deleteSharedPrefValue(AppConstants.STORAGE_DEVICE_OPEN_FIRST_TIME);
+    bool userToken = await storageService
+        .deleteSharedPrefValue(AppConstants.STORAGE_USER_TOKEN_KEY);
+    bool userType = await storageService
+        .deleteSharedPrefValue(AppConstants.STORAGE_USER_PROFILE_KEY);
+
+    await storageService
+        .deleteSharedPrefValue(AppConstants.EDUCATOR_PROFILE_INFO);
+    if (deviceFirstOpen && userToken && userType && context.mounted) {
+      Navigator.pushNamedAndRemoveUntil(
+          context, AppRoutes.GET_STARTED, (route) => false);
+      return;
+    }
+    return showSnackBar(context, "User Logout Failed! Please Try Again.",
+        type: "error");
+  } catch (e) {
+    return showSnackBar(context, "Something Went Wrong.  Please Try Again! ",
+        type: "error");
   }
 }

@@ -1,4 +1,5 @@
 import 'package:assam_edu/features/student/course_section/presentation/widgets/basic_overlay_widget.dart';
+import 'package:assam_edu/features/student/course_section/presentation/widgets/land_scape_video_player.dart';
 import 'package:flutter/material.dart';
 import 'package:video_player/video_player.dart';
 
@@ -45,7 +46,25 @@ class _VideoPlayerWidgetState extends State<VideoPlayerWidget> {
   Widget buildVideo() => Stack(children: <Widget>[
         buildVideoPlayer(),
         Positioned.fill(
-            child: BasicOVerLayWidget(controller: widget.controller))
+            child: BasicOVerLayWidget(controller: widget.controller)),
+        Positioned(
+          top: 5,
+          left: 5,
+          child: IconButton(
+              onPressed: () {
+                Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        LandscapePlayerPage(controller: widget.controller),
+                  ),
+                );
+              },
+              icon: const Icon(
+                Icons.fullscreen,
+                color: Colors.white,
+                size: 35,
+              )),
+        ),
       ]);
 
   Widget buildVideoPlayer() => AspectRatio(

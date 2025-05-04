@@ -4,12 +4,14 @@ import 'package:assam_edu/core/common/widgets/app_style.dart';
 import 'package:assam_edu/core/common/widgets/custom_button.dart';
 import 'package:assam_edu/core/config/db_config.dart';
 import 'package:assam_edu/core/routes/names.dart';
+import 'package:assam_edu/core/utlis/convert_blob_to_file.dart';
 import 'package:assam_edu/core/utlis/show_snack_bar.dart';
 import 'package:assam_edu/features/educator/course_create/domain/entities/create_course.dart';
 import 'package:assam_edu/features/educator/course_create/presentation/bloc/create_course_bloc.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:hexcolor/hexcolor.dart';
@@ -29,6 +31,42 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
   final _priceController = TextEditingController();
 
   String? _thumbnailPath;
+
+  int? courseId;
+
+  Map<dynamic, dynamic>? data = {};
+  Uint8List? imageBytes;
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    dynamic res = ModalRoute.of(context)!.settings.arguments;
+    if (res == null) {
+      return;
+    }
+    data = res as Map;
+    loadInitialData();
+  }
+
+  void loadInitialData() async {
+    _courseTitleController.text = data!["title"];
+    _descriptionController.text = data!["desc"];
+    _priceController.text = data!["price"];
+    imageBytes = data!["thumbnailUrl"];
+    courseId = data!["courseId"];
+    debugPrint("--- CourseID: $courseId");
+    debugPrint("--- ImageBytes: $imageBytes");
+    if (imageBytes != null) {
+      convertBytesToString(imageBytes!);
+    }
+  }
+
+  void convertBytesToString(Uint8List imageB) async {
+    final res = await convertBlobToFile(imageB, 'courseImage.jpg');
+    _thumbnailPath = res.path;
+    print("----- Final image in file format: $res");
+    print("----- Thumbnail: $_thumbnailPath");
+  }
 
   Future<void> _pickThumbnail() async {
     FilePickerResult? pickedFile = await FilePicker.platform.pickFiles(
@@ -68,9 +106,18 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
         thumbnail: File(_thumbnailPath!),
         price: _priceController.text.trim(),
       );
-      print(
+
+      debugPrint(
           "Form data : \n${course.title}  ,\n${course.description}  ,\n thumbnail: ${course.thumbnail}  , \n ${course.price}  ");
       context.read<CreateCourseBloc>().add(AddCourse(course: course));
+    }
+  }
+
+  void clearCourseData() async {
+    if (courseId != null) {
+      print("----Course Deletion Succesful from Local DB----");
+      final db = getIt<DBHelper>();
+      await db.deleteCourse(id: courseId!);
     }
   }
 
@@ -106,15 +153,16 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
       listener: (context, state) {
         if (state is CreateCourseError) {
           EasyLoading.dismiss();
-          print('---- Error During Course Upload : ${state.error}');
-          showSnackBar(
-              context, "Course Creation Failed! Reason:${state.error}");
+          showSnackBar(context, "Course Creation Failed! ${state.error}",
+              type: "error");
         }
         if (state is CreateCourseSuccess) {
           EasyLoading.dismiss();
-          showSnackBar(context, "Course Created Succefully!");
+          showSnackBar(
+              context, "Course Created Succefully! You can now add sections");
+          clearCourseData();
           _clearControllers();
-          Navigator.pushNamed(context, AppRoutes.ADD_SECTION,
+          Navigator.pushReplacementNamed(context, AppRoutes.ADD_SECTION,
               arguments: {"courseId": state.response.courseId});
         }
       },
@@ -218,34 +266,36 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
                         GestureDetector(
                           onTap: _pickThumbnail,
                           child: Container(
-                            height: 180,
-                            decoration: BoxDecoration(
-                              color: HexColor('3572EF'),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                            child: _thumbnailPath == null
-                                ? const Center(
-                                    child: Column(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.center,
-                                      children: [
-                                        Icon(
-                                          Icons.add_a_photo,
-                                          size: 50,
-                                          color: Colors.white,
-                                        ),
-                                        Text(
-                                          'Add Image',
-                                          style: TextStyle(color: Colors.grey),
+                              height: 180,
+                              decoration: BoxDecoration(
+                                color: HexColor('3572EF'),
+                                borderRadius: BorderRadius.circular(10),
+                              ),
+                              child: _thumbnailPath == null
+                                  ? imageBytes == null
+                                      ? const Center(
+                                          child: Column(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.add_a_photo,
+                                                size: 50,
+                                                color: Colors.white,
+                                              ),
+                                              Text(
+                                                'Add Image',
+                                                style: TextStyle(
+                                                    color: Colors.grey),
+                                              )
+                                            ],
+                                          ),
                                         )
-                                      ],
-                                    ),
-                                  )
-                                : Image.file(
-                                    File(_thumbnailPath!),
-                                    fit: BoxFit.fitWidth,
-                                  ),
-                          ),
+                                      : Image.memory(imageBytes!)
+                                  : Image.file(
+                                      File(_thumbnailPath!),
+                                      fit: BoxFit.fitWidth,
+                                    )),
                         ),
                       ],
                     ),
@@ -386,7 +436,8 @@ class _CourseCreatePageState extends State<CourseCreatePage> {
                             borderSide:
                                 BorderSide(color: HexColor('050C9C'), width: 2),
                             customFun: () {
-                              _createCourse(context);
+                              final currentContext = context;
+                              _createCourse(currentContext);
                             }),
                       ),
                     ],

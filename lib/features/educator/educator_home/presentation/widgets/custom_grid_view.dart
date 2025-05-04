@@ -11,6 +11,7 @@ class CstmGridView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    debugPrint("---Inside Build Method of CustomGridView---");
     return GridView.builder(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2, // Number of columns

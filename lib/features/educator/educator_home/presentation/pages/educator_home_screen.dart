@@ -8,6 +8,7 @@ import 'package:assam_edu/core/utlis/user_profile_photo.dart';
 import 'package:assam_edu/features/educator/educator_home/domain/entity/instructor_course_entity.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/widgets/custom_tab_bar.dart';
+import 'package:assam_edu/features/educator/profile/presentation/bloc/eudcator_profile_bloc.dart';
 import 'package:assam_edu/features/student/student_home/presentation/widgets/user_drawer.dart';
 import 'package:assam_edu/init_dependencies.dart';
 import 'package:flutter/material.dart';
@@ -43,12 +44,10 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
       final imageUrl = image!.startsWith('http')
           ? image.replaceFirst(RegExp(r'^(?:http|https)://[^/]+'), '')
           : '/$image';
-
+      debugPrint('--------- FUll Image URL -------: $profilePhoto');
       setState(() {
         profilePhoto = "${AppConstants.SERVER_API_URL}$imageUrl";
       });
-      debugPrint('--------- FUll Image URL -------: $profilePhoto');
-      setState(() {});
     }
   }
 
@@ -66,6 +65,12 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
   }
 
   @override
+  void didChangeDependencies() {
+    _getProfilePic();
+    super.didChangeDependencies();
+  }
+
+  @override
   void dispose() {
     super.dispose();
     _tabController.dispose();
@@ -76,7 +81,8 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
     return BlocConsumer<EducatorHomeScreenBloc, EducatorHomeScreenState>(
       listener: (context, state) {
         if (state is EducatorGetCourseError) {
-          showSnackBar(context, "can't retrieve courses ! please refresh!!");
+          showSnackBar(context, "can't retrieve courses ! please refresh!!",
+              type: "error");
         }
         if (state is EducatorGetCourseSuccess) {
           courses = state.res.courses!;
@@ -121,24 +127,49 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                 ),
                 leadingWidth: double.infinity,
                 actions: [
-                  Builder(
-                    builder: (context) => GestureDetector(
-                      onTap: () {
-                        Scaffold.of(context).openEndDrawer();
-                      },
-                      child: Container(
-                        margin: const EdgeInsets.only(right: 10),
-                        // decoration: const BoxDecoration(color: Colors.amber),
-                        child: profilePhoto != null && profilePhoto!.isNotEmpty
-                            ? UserProfilePhoto(
-                                image: profilePhoto!,
-                                type: "network",
-                              )
-                            : const UserProfilePhoto(
-                                image: 'assets/images/person.jpeg'),
-                      ),
-                    ),
-                  )
+                  BlocBuilder<EudcatorProfileBloc, EudcatorProfileState>(
+                    builder: (context, state) {
+                      if (state is EudcatorProfileSuccess) {
+                        // return CircleAvatar(
+                        //   backgroundImage: NetworkImage(state.profile.profilePicture),
+                        return Builder(
+                          builder: (context) => GestureDetector(
+                            onTap: () {
+                              Scaffold.of(context).openDrawer();
+                            },
+                            child: Container(
+                                margin: const EdgeInsets.only(right: 10),
+                                child: state.profile.profilePicture.isNotEmpty
+                                    ? UserProfilePhoto(
+                                        image: state.profile.profilePicture,
+                                        type: "network",
+                                      )
+                                    : const UserProfilePhoto(
+                                        image: 'assets/images/person.jpeg')),
+                          ),
+                        );
+                      }
+                      return Builder(
+                        builder: (context) => GestureDetector(
+                          onTap: () {
+                            Scaffold.of(context).openEndDrawer();
+                          },
+                          child: Container(
+                            margin: const EdgeInsets.only(right: 10),
+                            // decoration: const BoxDecoration(color: Colors.amber),
+                            child:
+                                profilePhoto != null && profilePhoto!.isNotEmpty
+                                    ? UserProfilePhoto(
+                                        image: profilePhoto!,
+                                        type: "network",
+                                      )
+                                    : const UserProfilePhoto(
+                                        image: 'assets/images/person.jpeg'),
+                          ),
+                        ),
+                      );
+                    },
+                  ),
                 ],
               ),
             ),
@@ -217,13 +248,13 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                           padding: const EdgeInsets.only(top: 30, left: 10),
                           child: RichText(
                               text: const TextSpan(
-                                  text: 'Add a',
+                                  text: 'Add ',
                                   style: TextStyle(
                                       color: Colors.white, fontSize: 12),
                                   children: [
                                 TextSpan(
                                     text: '\nNew Course',
-                                    style: TextStyle(fontSize: 17))
+                                    style: TextStyle(fontSize: 16))
                               ])),
                         ),
                         const SizedBox(
@@ -265,17 +296,12 @@ class _EducatorHomeScreenState extends State<EducatorHomeScreen>
                   ),
                   // ADD tab bar section ->
                   courses.isNotEmpty
-                      ? SizedBox(
-                          child: CstmTabSections(
-                            tabController: _tabController,
-                            courses: courses, // add courses from sqflite also..
-                          ),
+                      ? CstmTabSections(
+                          tabController: _tabController,
+                          courses: courses, // add courses from sqflite also..
                         )
-                      : SizedBox(
-                          height: 200,
-                          child: CstmTabSections(
-                            tabController: _tabController,
-                          ),
+                      : CstmTabSections(
+                          tabController: _tabController,
                         )
                   // : Container(
                   //     padding: const EdgeInsets.only(top: 200),

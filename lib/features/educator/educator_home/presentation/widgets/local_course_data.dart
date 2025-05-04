@@ -20,6 +20,10 @@ class _LocalCoursesTabState extends State<LocalCoursesTab> {
   @override
   void initState() {
     super.initState();
+    _loadCourseData();
+  }
+
+  void _loadCourseData() {
     _localCoursesFuture = db.getCourses();
   }
 
@@ -34,8 +38,17 @@ class _LocalCoursesTabState extends State<LocalCoursesTab> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(
-              child: Text('No courses available in local database.'));
+          return Center(
+              child: TextButton(
+            onPressed: () {
+              _loadCourseData();
+              setState(() {});
+            },
+            child: const Text(
+              "Refresh",
+              style: TextStyle(color: Colors.grey),
+            ),
+          ));
         } else {
           return CoursesList(courses: snapshot.data!);
         }
@@ -75,7 +88,7 @@ class CourseCard extends StatelessWidget {
     return GestureDetector(
       onTap: () {
         // Navigate to Course Detail Page
-        Navigator.pushNamed(context, AppRoutes.EDU_COURSE_DETAIL, arguments: {
+        Navigator.pushNamed(context, AppRoutes.Create_course, arguments: {
           "courseId": courseData[DBHelper.COLUMN_ID],
           "title": courseData[DBHelper.COLUMN_TITLE],
           "price": courseData[DBHelper.COLUMN_PRICE],
@@ -100,7 +113,7 @@ class CourseCard extends StatelessWidget {
                   imageBytes,
                   height: 100, // Adjust as needed
                   width: double.infinity,
-                  fit: BoxFit.cover, // Or any other fit you prefer
+                  fit: BoxFit.contain, // Or any other fit you prefer
                 )
               else if (courseData['imageUrl'] != null) //for remote image
                 Image.network(

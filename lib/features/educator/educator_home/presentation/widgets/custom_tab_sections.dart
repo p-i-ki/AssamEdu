@@ -1,9 +1,11 @@
 import 'package:assam_edu/core/app_constants/app_constants.dart';
 import 'package:assam_edu/features/educator/educator_home/domain/entity/instructor_course_entity.dart';
+import 'package:assam_edu/features/educator/educator_home/presentation/bloc/educator_home_screen_bloc.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/widgets/custom_grid_view.dart';
 import 'package:assam_edu/features/educator/educator_home/presentation/widgets/local_course_data.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CstmTabSections extends StatelessWidget {
   const CstmTabSections({
@@ -26,43 +28,40 @@ class CstmTabSections extends StatelessWidget {
             const BorderRadius.all(Radius.circular(AppConstants.dRadius)),
         child: SingleChildScrollView(
           child: SizedBox(
-            height: 200,
-            child: TabBarView(
-                controller: tabController,
-                children: courses == null
-                    ? [
-                        // Launched
-                        Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.all(4),
-                            height: AppConstants.dHeight * 0.3,
-                            child: const Center(
-                              child: Text("Refresh"),
+            height: 400,
+            child: TabBarView(controller: tabController, children: [
+              // Launched
+              courses != null
+                  ? Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(4),
+                      height: AppConstants.dHeight * 0.3,
+                      child: CstmGridView(
+                        courses: courses!,
+                      ))
+                  : Container(
+                      color: Colors.white,
+                      padding: const EdgeInsets.all(4),
+                      height: AppConstants.dHeight * 0.3,
+                      child: Center(
+                        child: TextButton(
+                            onPressed: () {
+                              context
+                                  .read<EducatorHomeScreenBloc>()
+                                  .add(GetCoursesEvent());
+                            },
+                            child: const Text(
+                              "Refresh",
+                              style: TextStyle(color: Colors.grey),
                             )),
-                        // Draft
-                        Container(
-                            color: Colors.white,
-                            padding: const EdgeInsets.all(4),
-                            height: AppConstants.dHeight * 0.3,
-                            child: const LocalCoursesTab()),
-                      ]
-                    : [
-                        // Launched
-                        Container(
-                          color: Colors.white,
-                          padding: const EdgeInsets.all(4),
-                          height: AppConstants.dHeight * 0.3,
-                          child: CstmGridView(
-                            courses: courses!,
-                          ),
-                        ),
-                        // Draft
-                        Container(
-                            color: Colors.blue,
-                            padding: const EdgeInsets.all(4),
-                            height: AppConstants.dHeight * 0.3,
-                            child: const LocalCoursesTab()),
-                      ]),
+                      )),
+              // Draft
+              Container(
+                  color: Colors.white,
+                  padding: const EdgeInsets.all(4),
+                  height: AppConstants.dHeight * 0.3,
+                  child: const LocalCoursesTab()),
+            ]),
           ),
         ),
       ),

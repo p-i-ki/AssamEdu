@@ -44,7 +44,7 @@ class CourseCreateResponseModel extends CourseCreateResponseEntity {
         message: json["message"] as String? ?? "",
         course: json["course"] != null
             ? CourseModel.fromJson(json["course"])
-            : throw Exception("Course data is missing"),
+            : throw Exception(json["message"]),
       );
 
   // Map<String, dynamic> toJson() => {

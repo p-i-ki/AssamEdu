@@ -49,12 +49,11 @@ class _SignInScreenState extends State<SignInScreen> {
             if (state is AuthSignInError) {
               //  print(state.error);
               EasyLoading.dismiss();
-              showSnackBar(context, state.error);
+              showSnackBar(context, state.error, type: "error");
             }
             if (state is AuthSignInSuccess) {
               EasyLoading.dismiss();
               showSnackBar(context, state.signInData.msg!);
-              print("----- Navigating to OTP screen -----");
               Navigator.pushNamed(context, AppRoutes.OTP,
                   arguments: {"email": emailController.text.trim()});
             }

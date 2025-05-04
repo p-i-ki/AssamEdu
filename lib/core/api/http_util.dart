@@ -42,7 +42,7 @@ class HttpUtil {
           },
         ),
       );
-      debugPrint("Response From Dio ------> : ${response.data}");
+      debugPrint("Response From Dio ---> : ${response.data}");
       return response.data;
     } on DioException catch (e) {
       String err = _handleDioError(e);
